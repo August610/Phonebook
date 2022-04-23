@@ -3,61 +3,62 @@ import { useForm } from 'react-hook-form';
 import s from "./styles.module.css"
 import cn from "classnames";
 import { Button } from '../../components/Button/Button';
-// import { useNavigate } from "react-router-dom";
-export function CreatePostForm({}) {
+import { useNavigate } from "react-router-dom";
+export function CreatePostForm({active, handleCreateNewPhone}) {
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onBlur"
     });
-    // const navigate = useNavigate();
  
-
     function onSubmit(data) {
-        // handleCreateNewPost(data, data.image, data.tags)
-        // setTimeout(() => navigate("/"), 200); 
+        handleCreateNewPhone(data)
         console.log(data);
     }
 
 
     return (
+        <>
         <form className={s.form_title} onSubmit={handleSubmit(onSubmit)}>
-            <h3 className={s.title}>Create new post</h3>
+            <h3 className={s.title}>Добавить пользователя</h3>
             <input className={s.formd}
                 type="text"
-                {...register('title', {
+                {...register('name', {
                     required: 'Это поле обязательно'
                 })}
-                placeholder="title"
+                placeholder="Имя"
             />
             <div>
                 {errors?.title && <p className={s.errorMessage}>{errors?.title?.message}</p>}
             </div>
-            <textarea className={cn(s.form_area)}
+            <input className={cn(s.formd)}
                 type="text"
-                {...register('text', {
+                {...register('number', {
                     required: 'Это поле обязательно'
                 })}
-                placeholder="text"
+                placeholder="Номер"
             />
             <div>
                 {errors?.text && <p className={s.errorMessage}>{errors?.text?.message}</p>}
             </div>
             <input className={s.formd}
                 type="text"
-                {...register('image', {
+                {...register('email', {
 
                 })}
-                placeholder="image url"
+                placeholder="Электронная почта"
             />
             <input className={s.formd}
                 type="text"
-                {...register('tags', {
+                {...register('the address', {
 
                 })}
-                placeholder="tags"
+                placeholder="Адрес"
             />
             {/* <button className={s.button}>Submit</button> */}
-            <Button>Submit</Button>
+            <button className={s.button_com}>Сохранить</button>
+           
         </form>
+        <button className={s.button_com} onClick={() => {active(false)}}>Отмена</button>
+        </>
     )
 }

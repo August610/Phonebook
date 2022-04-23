@@ -1,8 +1,5 @@
 import { Image, Table, Typography } from "antd";
 import React from "react";
-import { pokemonData } from "../../pokemon.js";
-import jsonData from "../../data.json";
-// import jsonData from "./data.json";
 
 const columns = [
   {
@@ -10,7 +7,7 @@ const columns = [
     dataIndex: "name",
     key: "name",
     render: (text) => <Typography.Text copyable>{text}</Typography.Text>,
-    sorter: (a, b) => a.name - b.name,
+    sorter: (a, b) => a.name.localeCompare(b.name)
   },
   {
     title: "Телефон",
@@ -21,46 +18,22 @@ const columns = [
     title: "Адрес",
     dataIndex: "the address",
     key: "the address",
-    // filters: [
-    //   {
-    //     text: "Seed Pokémon",
-    //     value: "Seed Pokémon",
-    //   },
-    //   {
-    //     text: "Flame Pokémon",
-    //     value: "Flame Pokémon",
-    //   },
-    //   {
-    //     text: "Turtle Pokémon",
-    //     value: "Turtle Pokémon",
-    //   },
-    // ],
-    // onFilter: (value, record) => record.classification.includes(value),
   },
   {
     title: "Электронная почта",
     dataIndex: "email",
     key: "email",
-    
   },
-  // {
-  //   title: "Maximum CP",
-  //   dataIndex: "maxCP",
-  //   key: "maxCP",
-  // },
-  // {
-  //   title: "Image",
-  //   dataIndex: "image",
-  //   key: "image",
-  //   render: (link) => <Image src={link} width={150} />,
-  // },
 ];
 
-const dataPokemons = jsonData.map((item) => ({ ...item, key: item.id }));
 
-const _Table = ({rows = 20}) => {
+
+const _Table = ({rows = 20, cards}) => {
+  const dataPhone = cards?.map((item) => ({ ...item, key: item.name }));
+  console.log(dataPhone);
   return <Table
-    dataSource={dataPokemons}
+    dataSource={dataPhone}
+    
     columns={columns} 
     pagination={{
         pageSize:rows,

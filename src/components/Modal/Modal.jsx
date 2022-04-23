@@ -1,5 +1,5 @@
 import React from 'react';
-import s from "./styles.css";
+import "./styles.css";
 import  cn  from 'classnames';
 
 export function Modal({active, setActive, children}) {

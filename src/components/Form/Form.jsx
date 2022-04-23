@@ -12,7 +12,7 @@ import { ReactComponent as Circle } from './img/circle.svg'
 import { CreatePostForm } from "../CreatePostForm/CreatePostForm";
 import { FormMod } from "../FormMod/FormMod";
 
-export const Form = () => {
+export const Form = ({handleCreateNewPhone}) => {
     const [modalActive, setModalActive] = useState(false);
     const [modalActiveForm, setModalActiveForm] = useState(false);
     return (
@@ -40,9 +40,9 @@ export const Form = () => {
                     </div>
                 </div>
             </Modal>
-            <Modal active={modalActiveForm} setActive={setModalActiveForm}>
-                <CreatePostForm></CreatePostForm>
-            </Modal>
+            <FormMod active={modalActiveForm} setActive={setModalActiveForm}>
+                <CreatePostForm active={setModalActiveForm} handleCreateNewPhone={handleCreateNewPhone}></CreatePostForm>
+            </FormMod>
 
 
         </div>
