@@ -1,38 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import save from './img/save.svg'
 import cn from 'classnames';
+import { EditPostForm } from "../CreatePostForm/EditForm";
+import { Modal } from "../Modal/Modal";
+import { FormMod } from "../FormMod/FormMod";
+import { ReactComponent as Out } from './img/Out.svg'
 
-export const Card = ({name, price, discount, wigth, description, available, picture, tags}) => {
-    const discount_price = Math.round(price - price * discount / 100);
-  return (
-    <div className="card">
-       <div className="card__sticky card__sticky_type_top-left">
-            {discount !== 0 && <span className="card__discount">
-                {`-${discount}%`}
-            </span>}
-            {tags && tags.map((tag, i) => 
-            <span key={i} className={cn('tag', {[`tag_type_${tag}`]: true})}>{tag}</span>
-            )}
-        </div>
-        <div className="card__sticky card__sticky_type_top-right">
-            <button className="card__favorite">
-                <img src={save} alt="добавить в избранное" className="card__favorite-icon" />
-            </button>
-        </div>
+export const Card = ({ name, email, address, number, image }) => {
+    const [modalActive, setModalActive] = useState(false);
+    const [modalActiveInfo, setmodalActiveInfo] = useState(false);
+    return (
+        <>
+            <FormMod active={modalActiveInfo} setActive={setmodalActiveInfo}>
+                <div>{name}</div>
+                <div>{number}</div>
+                <div>{address}</div>
+                <div>{email}</div>
+                <button onClick={() => { setmodalActiveInfo(false) }}>Отмена</button>
+            </FormMod>
+            <div className="card" onClick={() => { setmodalActiveInfo(true) }}>
 
-        <a href="#" className="card__link">
-            <img src={picture} alt={description} className="card__image"/>
-            <div className="card__desc">
-                {discount !== 0 && <span className="card__old-price">{price}₽</span>}
-                <span className={cn('card__price', {'card__price_type_discount': discount !== 0})}>{price}₽</span>
-                <span className="card__weight">{wigth}</span>
-                <p className="card__name">{name}</p>
+                {/* <a href="#" className="card__link"> */}
+                <div className="card__desc">
+                {/* <div className="card__image"></div> */}
+                    {image ? <img src={image} className="card__image" alt="img" /> : <Out className="card__image"/>}
+                    <div className="card__name ">{name}</div>
+                    <div className="card__name">{number}</div>
+                    <div className="card__name">{address}</div>
+                    <div className="card__name">{email}</div>
+                    <FormMod active={modalActive} setActive={setModalActive}>
+                        <EditPostForm name={name} number={number} address={address} email={email} setActive={setModalActive} />
+                    </FormMod>
+                    <button className="btn" onClick={() => { setModalActive(true), setmodalActiveInfo(false) }}>редактировать</button>
+                </div>
+                {/* </a> */}
             </div>
-        </a>
-        <a href="#" className="card__cart btn btn_type_primary">
-            В корзину
-        </a>
-    </div>
-  );
+        </>
+    );
 };

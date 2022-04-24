@@ -34,14 +34,16 @@
 
 .circle {
 	cursor: pointer;
-	margin-left: auto;
+	margin-left: 31px;
 	margin-top: 10px;
 }
 
 .col {
-	margin-left: auto;
+	margin-left: 210px;
 	margin-top: 10px;
-	margin-right: auto;
+	margin-right: 50px;
+	/* position: absolute; */
+	left: 15px;
 }
 
 :root {

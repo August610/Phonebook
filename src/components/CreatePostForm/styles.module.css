@@ -142,11 +142,11 @@ input {
 }
 
 .button_com:hover {
-    /* background: #2EE59D; */
-    /* background: rgb(219, 215, 215); */
+    /* background: #2EE59D;
+    background: rgb(219, 215, 215); */
     box-shadow: 0 15px 20px rgba(50, 53, 52, 0.4);
-    /* color: white; */
-    /* transform: translateY(-7px); */
+    /* color: white;
+    transform: translateY(-7px); */
 }
 
 

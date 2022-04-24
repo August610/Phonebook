@@ -11,16 +11,30 @@ import { ReactComponent as Export } from './img/Export.svg'
 import { ReactComponent as Circle } from './img/circle.svg'
 import { CreatePostForm } from "../CreatePostForm/CreatePostForm";
 import { FormMod } from "../FormMod/FormMod";
+import { Sort } from "../Sort";
 
-export const Form = ({handleCreateNewPhone}) => {
+const tabs = [
+    {
+      id: "name",
+      title: "Имя",
+    }
+  ];
+
+export const Form = ({handleCreateNewPhone, onSortData}) => {
     const [modalActive, setModalActive] = useState(false);
     const [modalActiveForm, setModalActiveForm] = useState(false);
+    const handleClickSort = (data) => {
+        onSortData(data);
+      };
+
     return (
         // <form className={s.form}>
         <div className={s.form}>
+            {/* <Sort tabs={tabs} onChageSort={handleClickSort}/> */}
             {/* {<Button type={() => setModalActive(true)}>создать</Button>} */}
             <Circle className={s.circle} onClick={() => setModalActive(true)} />
-            <div className={s.col}>Имя</div>
+            <Sort tabs={tabs} onChageSort={handleClickSort}/>
+            {/* <div className={s.col}>Имя</div> */}
             <div className={s.col}>Телефон</div>
             <div className={s.col}>Адрес</div>
             <div className={s.col}>Электронная почта</div>
