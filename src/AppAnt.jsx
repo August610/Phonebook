@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Layout, Row, Slider } from 'antd';
-import Table from './components/Table';
 import { Header } from "./components/Header";
-// import jsonData from "./data.json";
 import { data } from "./data.js";
 import { Footer } from "./components/Footer";
 import { SearchInfo } from "./components/SearchInfo";
@@ -10,12 +7,9 @@ import jsonData from "./data.json";
 import { Form } from "./components/Form/Form";
 import { Search } from "./components/Search";
 import { Cards } from "./components/Cards";
-// import EditableTable from "./components/Table";
-// const { Content } = Layout;
 
 
 export const AppAnt = () => {
-  // const [rows, setRows] = useState(20);
   const [searchQuery, setSearchQuery] = useState("");
   const [cards, setCards] = useState([]);
 
@@ -25,9 +19,9 @@ export const AppAnt = () => {
 
   const handleRequest = () => {
     if (searchQuery !== '') {
-      const filterCards = cards.filter(item => 
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        item.number.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      const filterCards = cards.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.number.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.email.toLowerCase().includes(searchQuery.toLowerCase()))
       setCards(filterCards)
@@ -46,7 +40,15 @@ export const AppAnt = () => {
   function handleCreateNewPhone(data) {
     cards.push({ ...data, id: cards.length });
     setCards([...cards]);
-    // setCards([...cards, dataPhone])
+  }
+
+  function handleUpdateNewPhone(data, id) {
+    console.log(id);
+    const newCardsState = cards.map((c) => {
+      return c.id === id ? data : c;
+    });
+    // cards.splice(cards.indexOf(cards.find(e => e.id === id)), 1, data)
+    setCards(newCardsState);
   }
 
   const onSortData = (currentSort) => {
@@ -64,15 +66,10 @@ export const AppAnt = () => {
       <Header>
         <Search handleInputChange={handleInputChange} handleFormSubmit={handleFormSubmit} />
       </Header>
-      <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} onSortData={onSortData}/>
+      <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} onSortData={onSortData} />
       <main className="content container">
-        {/* <Row>
-          <Col span={16} offset={4}>
-            <EditableTable cards={cards}/>
-          </Col>
-        </Row> */}
         <div className="content__cards">
-          <Cards goods={cards} />
+          <Cards goods={cards} handleUpdateNewPhone={handleUpdateNewPhone} />
         </div>
       </main>
       <Footer>Footer</Footer>

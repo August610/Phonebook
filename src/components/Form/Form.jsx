@@ -20,7 +20,7 @@ const tabs = [
     }
   ];
 
-export const Form = ({handleCreateNewPhone, onSortData}) => {
+export const Form = ({handleCreateNewPhone, onSortData, cards}) => {
     const [modalActive, setModalActive] = useState(false);
     const [modalActiveForm, setModalActiveForm] = useState(false);
     const handleClickSort = (data) => {
@@ -54,8 +54,8 @@ export const Form = ({handleCreateNewPhone, onSortData}) => {
                     </div>
                 </div>
             </Modal>
-            <FormMod active={modalActiveForm} setActive={setModalActiveForm}>
-                <CreatePostForm active={setModalActiveForm} handleCreateNewPhone={handleCreateNewPhone}></CreatePostForm>
+            <FormMod active={modalActiveForm} setActive={setModalActiveForm} >
+                <CreatePostForm active={setModalActiveForm} handleCreateNewPhone={handleCreateNewPhone} cards={cards}></CreatePostForm>
             </FormMod>
 
 

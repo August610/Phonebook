@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
-// import { UpdatePostContext } from '../../context/updatePostContext';
 import { Button } from '../Button/Button';
+import { ReactComponent as Out } from './img/Out1.svg'
 
 import s from "./styles.module.css"
 
-export function EditPostForm({ name, number, address, email, setActive }) {
+export function EditPostForm({ name, number, address, email, image, setActive, handleUpdateNewPhone, id }) {
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onBlur"
@@ -18,9 +18,9 @@ export function EditPostForm({ name, number, address, email, setActive }) {
         email: email,
     })
 
-    // const onUpdatePost = useContext(UpdatePostContext);
 
     function onSubmit(data) {
+        handleUpdateNewPhone(data, id)
         console.log(data);
     }
 
@@ -30,8 +30,9 @@ export function EditPostForm({ name, number, address, email, setActive }) {
 
     return (
         <>
+            <h3>Редактировать пользователя</h3>
+            {image ? <img src={image} className={s.image} alt="img" /> : <Out className={s.image}/>}
             <form className={s.form_title} onSubmit={handleSubmit(onSubmit)}>
-                <h3>Редактировать пользователя</h3>
                 <input className={s.formd}
                     type="text"
                     {...register('name', {
@@ -74,9 +75,9 @@ export function EditPostForm({ name, number, address, email, setActive }) {
                     value={info.email}
                     onChange={handleChange}
                 />
-                <button className={s.button_com} onClick={() => { setActive(false)}}>Сохранить</button> <button type='reset' className={s.button_com} onClick={() => { setActive(false) }}>Отмена</button>
+                <button className={s.button_com} onClick={() => { setActive(false) }}>Сохранить</button> <button type='reset' className={s.button_com} onClick={() => { setActive(false) }}>Отмена</button>
             </form>
-            
+
         </>
     )
 }
