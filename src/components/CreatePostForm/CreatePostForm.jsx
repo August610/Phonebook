@@ -12,22 +12,21 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
         mode: "onBlur"
     });
     const [modalActive, setModalActive] = useState(false);
-    const [file, setfile] = useState([]);
     const [image, setImage] = useState(cards.image);
 
 
     function onSubmit(data) {
-        handleCreateNewPhone(data)
-        console.log(data);
+        handleCreateNewPhone(data, image)
+        console.log(data, image);
     }
 
     function onSubmitImg(data) {
     //    dataImg.push({...data})
-        console.log(data);
+        // console.log(data);
         setImage(data)
     }
 
-    // console.log(dataImg);
+    // console.log(image);
     
 
     class ImageUpload extends React.Component {
@@ -39,7 +38,7 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
         _handleSubmit(e) {
             e.preventDefault();
             console.log('handle uploading-', this.state.file);
-            onSubmitImg(this.state.file)
+            onSubmitImg(this.state.imagePreviewUrl)
         }
 
         _handleImageChange(e) {
@@ -64,7 +63,7 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
             if (imagePreviewUrl) {
                 $imagePreview = (<img src={imagePreviewUrl} />);
             } else {
-                $imagePreview = (<div className={s.previewText}>Please select an Image for Preview</div>);
+                $imagePreview = (<div className={s.previewText}>Пожалуйста, загрузите изображение</div>);
             }
 
             return (
@@ -75,11 +74,11 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                             onChange={(e) => this._handleImageChange(e)} />
                         <button className={s.submitButton}
                             type="submit"
-                            onClick={(e) => this._handleSubmit(e)}>Upload Image</button>
+                            onClick={(e) => this._handleSubmit(e)}>Загрузить изображение</button>
                     </form>
-                    <div className={s.imgPreview}>
+                    {/* <div className={s.imgPreview}>
                         {$imagePreview}
-                    </div>
+                    </div> */}
                 </div>
             )
         }
@@ -88,9 +87,9 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
     return (
         <>
             <h3 className={s.title}>Добавить пользователя</h3>
-            {image ? <img src={image} /> : <Out className={s.imagee} onClick={() => { setModalActive(true) }} />}
+            {image ? <img src={image} className={s.imagee} /> : <Out className={s.imagee} onClick={() => { setModalActive(true) }} />}
             <FormMod active={modalActive} setActive={setModalActive}>
-                <ImageUpload />
+                <ImageUpload/>
                 <button onClick={() => { setModalActive(false) }}>Отмена</button>
             </FormMod>
 

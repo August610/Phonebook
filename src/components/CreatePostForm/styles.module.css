@@ -33,6 +33,7 @@ input {
     /* left: 514px;
     top: 362px; */
 
+
     background: rgba(196, 196, 196, 0.17);
     border: 1px solid #273B69;
     box-sizing: border-box;
@@ -127,7 +128,8 @@ input {
 .imagee {
     /* position: fixed; */
     width: 106px;
-    object-fit: contain;
+    height: 106px;
+    /* object-fit: contain; */
     border-radius: 50%;
     margin-top: -8px;
     align-items: center;
@@ -229,6 +231,7 @@ h3 { margin-left: 15px}
     font-weight: 700;
     font-size: 10pt;
     cursor: pointer;
+    margin-bottom: 15px;
 }
 
 .submitButton:hover {

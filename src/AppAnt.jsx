@@ -12,6 +12,7 @@ import { Cards } from "./components/Cards";
 export const AppAnt = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [cards, setCards] = useState([]);
+  const [toggle, setToggle] = useState(false)
 
   useEffect(() => {
     setCards(jsonData);
@@ -37,8 +38,8 @@ export const AppAnt = () => {
     handleRequest();
   }
 
-  function handleCreateNewPhone(data) {
-    cards.push({ ...data, id: cards.length });
+  function handleCreateNewPhone(data, image) {
+    cards.push({ ...data, id: cards.length, image: image});
     setCards([...cards]);
   }
 
@@ -61,15 +62,21 @@ export const AppAnt = () => {
     }
   };
 
+ function changeToggle(data) {
+    setToggle(data);
+ }
+
+//  console.log(toggle);
+
   return (
     <>
       <Header>
         <Search handleInputChange={handleInputChange} handleFormSubmit={handleFormSubmit} />
       </Header>
-      <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} onSortData={onSortData} />
+      <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} onSortData={onSortData} toggle={toggle} changeToggle={changeToggle}/>
       <main className="content container">
         <div className="content__cards">
-          <Cards goods={cards} handleUpdateNewPhone={handleUpdateNewPhone} />
+          <Cards goods={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle}/>
         </div>
       </main>
       <Footer>Footer</Footer>
