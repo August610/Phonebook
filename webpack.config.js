@@ -62,7 +62,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugins({
       template: path.resolve(__dirname, "src/public/index.html"),
-      favicon: "src/assets/favicon.svg",
+      favicon: "src/assets/baby.svg",
     }),
   ],
   infrastructureLogging: {

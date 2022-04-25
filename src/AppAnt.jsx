@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "./components/Header";
-import { data } from "./data.js";
 import { Footer } from "./components/Footer";
-import { SearchInfo } from "./components/SearchInfo";
 import jsonData from "./data.json";
 import { Form } from "./components/Form/Form";
 import { Search } from "./components/Search";
 import { Cards } from "./components/Cards";
+import { Pagination, Slider } from "antd";
 
 
 export const AppAnt = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [cards, setCards] = useState([]);
   const [toggle, setToggle] = useState(false)
+  
+  const [page, setPage] = useState(0);
+  const [pageLimit, setPageLimit] = useState(10);
+  const [rows, setRows] = useState(10);
 
+  console.log(jsonData);
+
+  function records(from, to) {
+    return jsonData.slice(from, to);
+  }
+  
+  
   useEffect(() => {
-    setCards(jsonData);
-  }, [searchQuery])
+    setCards(records(page, pageLimit));
+  }, [searchQuery, page, pageLimit])
 
   const handleRequest = () => {
     if (searchQuery !== '') {
@@ -39,17 +49,21 @@ export const AppAnt = () => {
   }
 
   function handleCreateNewPhone(data, image) {
-    cards.push({ ...data, id: cards.length, image: image});
+    cards.push({ ...data, id: cards.length, image: image });
     setCards([...cards]);
   }
 
   function handleUpdateNewPhone(data, id) {
-    console.log(id);
     const newCardsState = cards.map((c) => {
       return c.id === id ? data : c;
     });
     // cards.splice(cards.indexOf(cards.find(e => e.id === id)), 1, data)
     setCards(newCardsState);
+  }
+
+  function handleDeletePhone(id) {
+    const newCards = cards.filter((card) => card.id !== id);
+    setCards(newCards);
   }
 
   const onSortData = (currentSort) => {
@@ -62,24 +76,46 @@ export const AppAnt = () => {
     }
   };
 
- function changeToggle(data) {
+  function changeToggle(data) {
     setToggle(data);
- }
+  }
 
-//  console.log(toggle);
+  function setPagination(number) {
+    setPage(number);
+  }
+
+  function onShowSizeChange(current, pageSize) {
+    // console.log(current, pageSize);
+    setPageLimit(pageSize)
+  }
+
+  function getContent() {
+    apiMethod({ start: 0, count: 20 });
+  }
+
+  function loadContent() {
+    const total = 100;
+    const data = []; // lenght == 40
+
+    if (data.lenght < total) {
+      apiMethod({ start: data.lenght, count: 20 });
+    }
+  }
 
   return (
     <>
       <Header>
         <Search handleInputChange={handleInputChange} handleFormSubmit={handleFormSubmit} />
       </Header>
-      <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} onSortData={onSortData} toggle={toggle} changeToggle={changeToggle}/>
+      <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} onSortData={onSortData} toggle={toggle} changeToggle={changeToggle} />
       <main className="content container">
         <div className="content__cards">
-          <Cards goods={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle}/>
+          <Cards goods={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} />
+          {/* <Slider min={10} max={100} onChange={setPageLimit} defaultValue={page}/> */}
+          <Pagination current={page} onChange={setPagination} total={100} onShowSizeChange={onShowSizeChange} showSizeChanger />
         </div>
       </main>
-      <Footer>Footer</Footer>
+      <Footer></Footer>
     </>
   );
 };

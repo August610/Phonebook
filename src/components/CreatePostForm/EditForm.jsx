@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button } from '../Button/Button';
 import { FormMod } from '../FormMod/FormMod';
 import { ReactComponent as Out } from './img/Out1.svg'
 

@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import { useForm } from 'react-hook-form';
 import s from "./styles.module.css"
 import cn from "classnames";
-import { Button } from '../../components/Button/Button';
-import { useNavigate } from "react-router-dom";
 import { ReactComponent as Out } from './img/Out1.svg'
 import { FormMod } from '../FormMod/FormMod';
 export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
@@ -118,10 +116,14 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                 <input className={s.formd}
                     type="text"
                     {...register('email', {
-
+                        pattern: {
+                            value:  /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/,
+                            message: "Email не соответствует формату электронной почты",
+                        }
                     })}
                     placeholder="Электронная почта"
                 />
+                {errors?.email && <p className={s.errorMessage}>{errors?.email?.message}</p>}
                 <input className={s.formd}
                     type="text"
                     {...register('address', {

@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-// import { Link } from "react-router-dom";
 import s from "./styles.module.css";
-import cn from "classnames";
-import { Button } from '../../components/Button/Button';
 import { Modal } from "../Modal/Modal";
 import { ReactComponent as Add } from './img/add.svg'
 import { ReactComponent as Edit } from './img/Edit.svg'
@@ -28,13 +25,9 @@ export const Form = ({ handleCreateNewPhone, onSortData, cards, toggle, changeTo
     };
 
     return (
-        // <form className={s.form}>
         <div className={s.form}>
-            {/* <Sort tabs={tabs} onChageSort={handleClickSort}/> */}
-            {/* {<Button type={() => setModalActive(true)}>создать</Button>} */}
             <Circle className={s.circle} onClick={() => setModalActive(true)} />
             <Sort tabs={tabs} onChageSort={handleClickSort} />
-            {/* <div className={s.col}>Имя</div> */}
             <div className={s.col}>Телефон</div>
             <div className={s.col}>Адрес</div>
             <div className={s.col}>Электронная почта</div>
@@ -49,7 +42,7 @@ export const Form = ({ handleCreateNewPhone, onSortData, cards, toggle, changeTo
                     <div className={s.item}>
                         <span><Import className={s.icon} /><br />Импортировать<br />контакты</span>
                     </div>
-                    <div className={s.item} onClick={() => {toggle ? changeToggle(false) : changeToggle(true); setModalActive(false)}}>
+                    <div className={s.item} onClick={() => { toggle ? changeToggle(false) : changeToggle(true); setModalActive(false) }}>
                         <span><Edit className={s.icon} /><br />Редактировать<br />список</span>
                     </div>
                 </div>
@@ -57,8 +50,6 @@ export const Form = ({ handleCreateNewPhone, onSortData, cards, toggle, changeTo
             <FormMod active={modalActiveForm} setActive={setModalActiveForm} >
                 <CreatePostForm active={setModalActiveForm} handleCreateNewPhone={handleCreateNewPhone} cards={cards}></CreatePostForm>
             </FormMod>
-
-
         </div>
 
     )

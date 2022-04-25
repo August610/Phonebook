@@ -3,12 +3,12 @@ import s from "./styles.module.css";
 
 import { Card } from "../Card";
 
-export const Cards = ({goods, handleUpdateNewPhone, toggle}) => {
+export const Cards = ({goods, handleUpdateNewPhone, toggle, handleDeletePhone}) => {
   
   return (
     <div className={s.cards}>
       {goods?.map( (dataItem,index) => {
-        return (<Card key={`${index}`} {...dataItem} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle}/>)
+        return (<Card key={`${index}`} {...dataItem} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone}/>)
       })}
     </div>
   );

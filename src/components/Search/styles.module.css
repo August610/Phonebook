@@ -24,8 +24,13 @@
 
 .input:focus {
 	background: #FFFFFF;
-	border: 1px solid var(--main-color);
+	/* border: 1px solid var(--main-color); */
+	border: none;
 }
+/* input:hover {
+	transform: scale(1.1);
+} */
+
 
 .input::placeholder {
 	color: #7b8e98;
@@ -42,26 +47,4 @@
 	top: 17px;
 	display: flex;
 	
-}
-
-.btn svg {
-	fill: #7B8E98;
-}
-
-.btn_disabled svg {
-	fill: #CFD8DC;
-}
-
-.btn:focus svg {
-	fill: #FEBA0C;
-}
-
-.btn:hover svg {
-	fill: #FEBA0C;
-}
-
-@media (max-width: 350px) {
-	.search__input {
-		max-width: 400px;
-	}
 }

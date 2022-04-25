@@ -54,7 +54,7 @@
 	color: #273B69;
 }
 
-.btn:hover {
+.btn:hover, .btn_del_ac:hover {
 	transform: scale(1.2);
 }
 
@@ -73,15 +73,16 @@
 }
 
 .card__image {
-	position: fixed;
+	position: absolute;
 	width: 56.52px;
 	height: 56.52px;
 	/* object-fit: contain; */
 	border-radius: 50%;
-	margin-top: -8px;
+	margin-top: -7px;
 	/* padding-bottom: 1px; */
 	margin-left: 15px;
 	align-items: center;
+	cursor: pointer;
 }
 
 .image_info {
@@ -92,6 +93,7 @@
 	border-radius: 50%;
 	margin-top: -8px;
 	/* padding-bottom: 1px; */
+	/* cursor: pointer; */
 }
 
 .img_none {
@@ -110,6 +112,7 @@
 	align-items: center;
 	text-align: center;
 	margin-bottom: 10px;
+	font-weight: 600;
 }
 
 .card__name {
@@ -117,9 +120,6 @@
 	line-height: 1.25;
 	margin-left: 135px;
 	margin-top: 10px;
-	/* margin-right: auto;
-	padding-left: 150px;
-	padding-right: 10px; */
 	/* border: 1px solid #bdbdbd; */
 	position: relative;
 	height: 30px;
@@ -130,12 +130,6 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
-
-.card__sticky_type_top-right {
-	top: 0;
-	right: 0;
-}
-
 
 .card__link {
 	text-decoration: none;
