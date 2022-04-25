@@ -12,21 +12,36 @@ export const AppAnt = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [cards, setCards] = useState([]);
   const [toggle, setToggle] = useState(false)
-  
-  const [page, setPage] = useState(0);
-  const [pageLimit, setPageLimit] = useState(10);
-  const [rows, setRows] = useState(10);
 
-  console.log(jsonData);
+  const [page, setPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(20);
+  const [fetching, setFetching] = useState(true);
+
+  // console.log(jsonData);
 
   function records(from, to) {
     return jsonData.slice(from, to);
   }
-  
-  
+
+  const scrollHandler = (e) => {
+    if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) {
+      setFetching(true)
+    }
+  }
+
   useEffect(() => {
-    setCards(records(page, pageLimit));
-  }, [searchQuery, page, pageLimit])
+    if (fetching)
+      setCards(records(page, currentPage));
+      setCurrentPage(prevState => prevState + 1)
+      setFetching(false)
+  }, [searchQuery, fetching])
+
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler)
+    return function () {
+      document.removeEventListener("scroll", scrollHandler)
+    };
+  }, [])
 
   const handleRequest = () => {
     if (searchQuery !== '') {
@@ -80,28 +95,6 @@ export const AppAnt = () => {
     setToggle(data);
   }
 
-  function setPagination(number) {
-    setPage(number);
-  }
-
-  function onShowSizeChange(current, pageSize) {
-    // console.log(current, pageSize);
-    setPageLimit(pageSize)
-  }
-
-  function getContent() {
-    apiMethod({ start: 0, count: 20 });
-  }
-
-  function loadContent() {
-    const total = 100;
-    const data = []; // lenght == 40
-
-    if (data.lenght < total) {
-      apiMethod({ start: data.lenght, count: 20 });
-    }
-  }
-
   return (
     <>
       <Header>
@@ -111,8 +104,8 @@ export const AppAnt = () => {
       <main className="content container">
         <div className="content__cards">
           <Cards goods={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} />
-          {/* <Slider min={10} max={100} onChange={setPageLimit} defaultValue={page}/> */}
-          <Pagination current={page} onChange={setPagination} total={100} onShowSizeChange={onShowSizeChange} showSizeChanger />
+          {/* <Slider min={10} max={100} onChange={page} defaultValue={pageLimit}/> */}
+          {/* <Pagination current={page} onChange={setPageLimit} total={jsonData.length} /> */}
         </div>
       </main>
       <Footer></Footer>
