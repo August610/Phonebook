@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./styles.css";
 import { EditPostForm } from "../CreatePostForm/EditForm";
-import { Modal } from "../Modal/Modal";
 import { FormMod } from "../FormMod/FormMod";
 import { ReactComponent as Out } from './img/Out.svg'
 
@@ -10,7 +9,10 @@ export const Card = ({ name, email, address, number, image, handleUpdateNewPhone
     const [modalActiveInfo, setmodalActiveInfo] = useState(false);
 
     function deleteCard() {
-        handleDeletePhone(id);
+        const confirmm = confirm("Удалить контакт?")
+        if (confirmm == true) {
+            handleDeletePhone(id);
+        }
     }
 
     return (
@@ -27,7 +29,6 @@ export const Card = ({ name, email, address, number, image, handleUpdateNewPhone
             </FormMod>
             <div className="card" onClick={() => { setmodalActiveInfo(true) }}>
                 <div className="card__desc">
-                    {/* <div className="card__image"></div> */}
                     {image ? <img src={image} className="card__image" alt="img" /> : <Out className="card__image" />}
                     <div className="card__name ">{name}</div>
                     <div className="card__name">{number}</div>

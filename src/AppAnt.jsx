@@ -17,8 +17,6 @@ export const AppAnt = () => {
   const [currentPage, setCurrentPage] = useState(20);
   const [fetching, setFetching] = useState(true);
 
-  // console.log(jsonData);
-
   function records(from, to) {
     return jsonData.slice(from, to);
   }
@@ -104,7 +102,6 @@ export const AppAnt = () => {
       <main className="content container">
         <div className="content__cards">
           <Cards goods={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} />
-          {/* <Slider min={10} max={100} onChange={page} defaultValue={pageLimit}/> */}
           {/* <Pagination current={page} onChange={setPageLimit} total={jsonData.length} /> */}
         </div>
       </main>

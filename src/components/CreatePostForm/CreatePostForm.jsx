@@ -131,7 +131,6 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                     })}
                     placeholder="Адрес"
                 />
-                {/* <button className={s.button}>Submit</button> */}
                 <button className={s.button_com} onClick={() => { active(false) }}>Сохранить</button>
                 <button type='reset' className={s.button_com} onClick={() => { active(false) }}>Отмена</button>
             </form>
