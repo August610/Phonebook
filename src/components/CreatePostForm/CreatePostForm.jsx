@@ -101,7 +101,7 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                     placeholder="Имя"
                 />
                 <div>
-                    {errors?.title && <p className={s.errorMessage}>{errors?.title?.message}</p>}
+                    {errors?.name && <p className={s.errorMessage}>{errors?.name?.message}</p>}
                 </div>
                 <input className={cn(s.formd)}
                     type="text"
@@ -111,7 +111,7 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                     placeholder="Номер"
                 />
                 <div>
-                    {errors?.text && <p className={s.errorMessage}>{errors?.text?.message}</p>}
+                    {errors?.number && <p className={s.errorMessage}>{errors?.number?.message}</p>}
                 </div>
                 <input className={s.formd}
                     type="text"

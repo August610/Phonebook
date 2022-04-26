@@ -1,18 +1,14 @@
 .header {
-    position: absolute;
-    /* position: fixed; */
+    /* position: absolute; */
     width: 100%;
     height: 64px;
-    left: 0px;
-    top: 0px;
+    /* left: 0px; */
+    top: 0;
     opacity: 1;
-
     background: #273B69;
-}
-
-/* .header-wrapper {
-    display: flex;
-    align-items: center;
+    /* display: flex; */
     justify-content: space-between;
-    gap: 80px;
-} */
+    align-items: center;
+    position: sticky;
+    z-index: 1;
+}

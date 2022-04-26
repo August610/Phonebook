@@ -1,23 +1,41 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import s from "./styles.module.css";
 import { ReactComponent as SearchIcon } from "./img/ic-search.svg";
 import { ReactComponent as CloseIcon } from "./img/ic-close-input.svg";
 
-export const Search = ({ handleInputChange, handleFormSubmit }) => {
+export const Search = ({searchText = "", handleInputChange, handleFormSubmit, clearSearch }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(()=> {
+    setSearchQuery(searchText)
+  }, [searchText])
+
+  const inputRef = useRef(null);
+  const handleForm = (e) => {
+    e.preventDefault();
+    handleFormSubmit && handleFormSubmit(inputRef.current?.value);
+  };
+
+   const handleClick = () => {
+     inputRef.current.style.color = 'red';
+   }
+
+
   return (
-    <form className={s.search} onSubmit={handleFormSubmit}>
+    <form className={s.search} onSubmit={handleForm}>
       <input
+        ref={inputRef}
         onInput={function (e) {
-          handleInputChange(e.target.value);
+          handleInputChange && handleInputChange(e.target.value);
         }}
+        value={searchQuery}
         type="text"
         placeholder="Поиск"
         className={s.input}
       />
-      {/* <button className={s.btn}>
-        <SearchIcon />
-        {false && <CloseIcon />}
-      </button> */}
+      <button className={s.btn}>
+        {searchQuery === "" ? <SearchIcon onClick={handleClick}/> : <CloseIcon onClick={clearSearch}/>}
+      </button>
     </form>
   );
 };

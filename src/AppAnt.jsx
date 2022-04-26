@@ -5,50 +5,67 @@ import jsonData from "./data.json";
 import { Form } from "./components/Form/Form";
 import { Search } from "./components/Search";
 import { Cards } from "./components/Cards";
-import { Pagination, Slider } from "antd";
 
 
 export const AppAnt = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [cards, setCards] = useState([]);
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(false);
 
-  const [page, setPage] = useState(0);
-  const [currentPage, setCurrentPage] = useState(20);
+  const [page, setPage] = useState(1);
   const [fetching, setFetching] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const contentPerPage = 20
+  const firstIndex = lastIndex - contentPerPage
+  const [lastIndex, setLastIndex] = useState(page * contentPerPage);
 
   function records(from, to) {
     return jsonData.slice(from, to);
   }
 
-  const scrollHandler = (e) => {
-    if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) {
-      setFetching(true)
-    }
-  }
+  useEffect(() => {
+    handleRequest();
+  }, [searchQuery]);
 
   useEffect(() => {
-    if (fetching)
-      setCards(records(page, currentPage));
-      setCurrentPage(prevState => prevState + 1)
+    if (fetching) {
+      console.log("fetching");
+      setCards(records(firstIndex, lastIndex));
+      setLastIndex(prevState => prevState + 5)
+      setTotalCount(cards.length);
       setFetching(false)
-  }, [searchQuery, fetching])
+    }
+  }, [searchQuery, fetching, totalCount])
 
   useEffect(() => {
     document.addEventListener("scroll", scrollHandler)
     return function () {
       document.removeEventListener("scroll", scrollHandler)
     };
-  }, [])
+  }, [totalCount])
+
+  const scrollHandler = (e) => {
+    if ((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) && totalCount < jsonData.length) {
+      setTotalCount(prevState => prevState + 5);
+      setFetching(true)
+    }
+  }
 
   const handleRequest = () => {
     if (searchQuery !== '') {
-      const filterCards = cards.filter(item =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.email.toLowerCase().includes(searchQuery.toLowerCase()))
+      const filterCards = jsonData.filter(item =>
+        item.name.last.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        // Object.values(item).filter(item => typeof item == 'string').map(e => e.toLowerCase().includes(searchQuery.toLowerCase()))) 
+        item.name.first && item.name.first.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.number && item.number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.address && item.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.email && item.email.toLowerCase().includes(searchQuery.toLowerCase()))
       setCards(filterCards)
+    }
+
+    if (searchQuery === '') {
+      setCards(records(firstIndex, contentPerPage));
     }
   }
 
@@ -56,8 +73,7 @@ export const AppAnt = () => {
     setSearchQuery(inputValue)
   }
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = () => {
     handleRequest();
   }
 
@@ -82,10 +98,8 @@ export const AppAnt = () => {
   const onSortData = (currentSort) => {
     switch (currentSort) {
       case "name":
-        setCards([...cards].sort((a, b) => a.name.localeCompare(b.name)));
+        setCards([...cards].sort((a, b) => (a.name.first || a.name.last).localeCompare((b.name.first || b.name.last))));
         break;
-      default:
-        setCards([...cards].sort());
     }
   };
 
@@ -93,16 +107,24 @@ export const AppAnt = () => {
     setToggle(data);
   }
 
+  function clearSearch() {
+    setSearchQuery("");
+  }
+
   return (
     <>
       <Header>
-        <Search handleInputChange={handleInputChange} handleFormSubmit={handleFormSubmit} />
+        <Search
+          searchText={searchQuery}
+          handleInputChange={handleInputChange}
+          handleFormSubmit={handleFormSubmit}
+          clearSearch={clearSearch}
+        />
       </Header>
       <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} onSortData={onSortData} toggle={toggle} changeToggle={changeToggle} />
       <main className="content container">
         <div className="content__cards">
-          <Cards goods={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} />
-          {/* <Pagination current={page} onChange={setPageLimit} total={jsonData.length} /> */}
+          <Cards cards={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} />
         </div>
       </main>
       <Footer></Footer>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import s from "./styles.module.css";
+import cn from 'classnames';
 import { Modal } from "../Modal/Modal";
 import { ReactComponent as Add } from './img/add.svg'
 import { ReactComponent as Edit } from './img/Edit.svg'
@@ -13,13 +14,14 @@ import { Sort } from "../Sort";
 const tabs = [
     {
         id: "name",
-        title: "Имя",
-    }
+        title: "ФИО",
+    },
 ];
 
 export const Form = ({ handleCreateNewPhone, onSortData, cards, toggle, changeToggle }) => {
     const [modalActive, setModalActive] = useState(false);
     const [modalActiveForm, setModalActiveForm] = useState(false);
+
     const handleClickSort = (data) => {
         onSortData(data);
     };
@@ -28,9 +30,9 @@ export const Form = ({ handleCreateNewPhone, onSortData, cards, toggle, changeTo
         <div className={s.form}>
             <Circle className={s.circle} onClick={() => setModalActive(true)} />
             <Sort tabs={tabs} onChageSort={handleClickSort} />
-            <div className={s.col}>Телефон</div>
-            <div className={s.col}>Адрес</div>
-            <div className={s.col}>Электронная почта</div>
+            <div className={cn(s.col, s.phone)}>Телефон</div>
+            <div className={cn(s.col, s.address)}>Адрес</div>
+            <div className={cn(s.col, s.email)}>Электронная почта</div>
             <Modal active={modalActive} setActive={setModalActive}>
                 <div className={s.wrapper}>
                     <div className={s.item} onClick={() => { setModalActiveForm(true); setModalActive(false) }}>

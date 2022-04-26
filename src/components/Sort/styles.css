@@ -12,6 +12,10 @@
 }
 
 .sort__link {
+	position: absolute;
+	bottom: 0;
+	margin-bottom: 10px;
+	left: 217px;
 	text-decoration: none;
 	font-size: 14px;
 	line-height: 20px;

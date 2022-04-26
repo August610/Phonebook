@@ -100,13 +100,9 @@ input {
 }
 
 .imagee {
-    /* position: fixed; */
     width: 106px;
     height: 106px;
-    /* object-fit: contain; */
     border-radius: 50%;
-    margin-top: -8px;
-    align-items: center;
     margin-bottom: 20px;
     cursor: pointer;
 }

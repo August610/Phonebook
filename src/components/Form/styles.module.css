@@ -1,14 +1,14 @@
 .form {
-	display: flex;
-	align-items: center;
-	position: relative;
-	text-align: center;
-	/* flex: auto; */
-	/* padding-bottom: 30px; */
-	/* border: 1px solid #bdbdbd; */
-	margin-top: 64px;
 	padding-bottom: 10px;
 	background-color: white;
+	width: 100%;
+    height: 48px;
+    top: 64px;
+    justify-content: space-between;
+    align-items: center;
+	justify-content: center;
+    position: sticky;
+    z-index: 1;
 }
 
 .modal {
@@ -19,7 +19,6 @@
     top: 0;
     left: 0;
     z-index: 10;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,11 +38,20 @@
 }
 
 .col {
-	margin-left: 231px;
-	margin-top: 10px;
-	margin-right: 50px;
-	/* position: absolute; */
-	left: 15px;
+	position: absolute;
+	bottom: 0;
+	margin-bottom: 10px;
+}
+.phone {
+	left: 543px;
+}
+
+.address {
+	left: 880px;
+}
+
+.email {
+	right: 599px;
 }
 
 :root {
@@ -141,9 +149,6 @@ body {
 	fill: #eee;
 }
 
-/* .icon:hover{
-	fill: white;
-  } */
 .icon {
 	fill: #273B69;
 }

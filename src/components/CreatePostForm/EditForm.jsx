@@ -12,7 +12,7 @@ export function EditPostForm({ name, number, address, email, image, setActive, h
     });
 
     const [info, setinfo] = useState({
-        name: name,
+        name: name.first,
         number: number,
         address: address,
         email: email,
@@ -95,7 +95,7 @@ export function EditPostForm({ name, number, address, email, image, setActive, h
                 <button onClick={() => { setModalActive(false) }}>Отмена</button>
             </FormMod>
             <h3>Редактировать пользователя</h3>
-           <div onClick={() => { setModalActive(true) }}> {imageEdit ? <img src={imageEdit} className={s.imagee} alt="img" /> : <Out className={s.image}  />}</div>
+            <div onClick={() => { setModalActive(true) }}> {imageEdit ? <img src={imageEdit} className={s.imagee} alt="img" /> : <Out className={s.image} />}</div>
             <form className={s.form_title} onSubmit={handleSubmit(onSubmit)}>
                 <input className={s.formd}
                     type="text"
