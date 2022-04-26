@@ -3,7 +3,7 @@
 # Команды для запуска:
 ###### npm install -g yarn
 ###### yarn install
-###### yarn react-hook-form
+###### yarn add react-hook-form
 ###### yarn add antd
 ###### yarn start
 # Скриншоты:
