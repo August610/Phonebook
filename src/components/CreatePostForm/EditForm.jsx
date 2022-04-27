@@ -5,7 +5,7 @@ import { ReactComponent as Out } from './img/Out1.svg'
 
 import s from "./styles.module.css"
 
-export function EditPostForm({ name, number, address, email, image, setActive, handleUpdateNewPhone, id }) {
+export function EditPostForm({ name, number, address, email, image, setActive, handleUpdateNewPhone, id, cards }) {
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onBlur"

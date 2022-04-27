@@ -4,7 +4,7 @@ import { EditPostForm } from "../CreatePostForm/EditForm";
 import { FormMod } from "../FormMod/FormMod";
 import { ReactComponent as Out } from './img/Out.svg'
 
-export const Card = ({ name, lastname, patronymic, email, address, number, image, handleUpdateNewPhone, id, toggle, handleDeletePhone, cards }) => {
+export const Card = ({ name, email, address, number, image, handleUpdateNewPhone, id, toggle, handleDeletePhone, cards }) => {
     const [modalActive, setModalActive] = useState(false);
     const [modalActiveInfo, setmodalActiveInfo] = useState(false);
 
@@ -43,20 +43,20 @@ export const Card = ({ name, lastname, patronymic, email, address, number, image
                     <button onClick={() => { setmodalActiveInfo(false) }}>Отмена</button>
                 </div>
             </FormMod>
+            <FormMod active={modalActive} setActive={setModalActive}>
+                <EditPostForm name={name} number={number} address={address} email={email} image={image} id={id} cards={cards} setActive={setModalActive} handleUpdateNewPhone={handleUpdateNewPhone} />
+            </FormMod>
             <div className="card" onClick={() => { setmodalActiveInfo(true) }}>
                 <div className="card__desc">
                     {image ? <img src={image} className="card__image" alt="img" /> : <Out className="card__image" />}
-                    <div className="card__name ">{name.last} {name.first && name.first} </div>
+                    <div className="card__name">{name.last} {name.first && name.first} </div>
                     <div className="card__name">{number}</div>
                     <div className="card__name">{address}</div>
                     <div className="card__name">{email}</div>
-                    <button className="btn" onClick={(e) =>  e.stopPropagation(setModalActive(true))}>редактировать</button>
+                    <button className={toggle ? "btn" : "btn_del"} onClick={(e) => e.stopPropagation(setModalActive(true))}>редактировать</button>
                     <button className={toggle ? "btn_del_ac" : "btn_del"} onClick={(e) => e.stopPropagation(deleteCard())}>удалить</button>
                 </div>
             </div>
-            <FormMod active={modalActive} setActive={setModalActive}>
-                <EditPostForm name={name} number={number} address={address} email={email} image={image} id={id} setActive={setModalActive} handleUpdateNewPhone={handleUpdateNewPhone} />
-            </FormMod>
         </>
     );
 };

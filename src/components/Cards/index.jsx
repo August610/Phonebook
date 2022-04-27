@@ -7,7 +7,7 @@ export const Cards = ({cards, handleUpdateNewPhone, toggle, handleDeletePhone}) 
   
   return (
     <div className={s.cards}>
-      {cards?.map( (dataItem,index) => {
+      {cards?.map( (dataItem, index) => {
         return (<Card key={`${index}`} {...dataItem} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} cards={cards}/>)
       })}
     </div>

@@ -18,7 +18,7 @@ const tabs = [
     },
 ];
 
-export const Form = ({ handleCreateNewPhone, onSortData, cards, toggle, changeToggle }) => {
+export const Form = ({ handleCreateNewPhone, onSortData, cards, toggle, changeToggle}) => {
     const [modalActive, setModalActive] = useState(false);
     const [modalActiveForm, setModalActiveForm] = useState(false);
 

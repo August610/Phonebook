@@ -16,9 +16,13 @@ export const AppAnt = () => {
   const [fetching, setFetching] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
+  
+
   const contentPerPage = 20
   const firstIndex = lastIndex - contentPerPage
   const [lastIndex, setLastIndex] = useState(page * contentPerPage);
+
+  const [sort, setSort] = useState(false)
 
   function records(from, to) {
     return jsonData.slice(from, to);
@@ -30,7 +34,7 @@ export const AppAnt = () => {
 
   useEffect(() => {
     if (fetching) {
-      console.log("fetching");
+      // console.log("fetching");
       setCards(records(firstIndex, lastIndex));
       setLastIndex(prevState => prevState + 5)
       setTotalCount(cards.length);
@@ -79,7 +83,8 @@ export const AppAnt = () => {
 
   function handleCreateNewPhone(data, image) {
     data.name.split(" ").map(e => console.log(e));
-    cards.unshift({ ...data, id: cards.length, image: image, name: {first : data.name.split(" ")[0], last: data.name.split(" ")[1]}});
+    const [first, last] = data.name.split(" ");
+    cards.unshift({ ...data, id: cards.length, image, name: {first, last}});
     setCards([...cards]);
   }
 
