@@ -12,7 +12,7 @@ export function EditPostForm({ name, number, address, email, image, setActive, h
     });
 
     const [info, setinfo] = useState({
-        name: name.first,
+        name: [name.first, name.last],
         number: number,
         address: address,
         email: email,

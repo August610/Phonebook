@@ -50,7 +50,7 @@ export const Card = ({ name, lastname, patronymic, email, address, number, image
                     <div className="card__name">{number}</div>
                     <div className="card__name">{address}</div>
                     <div className="card__name">{email}</div>
-                    <button className="btn" onClick={(e) => { e.stopPropagation(setModalActive(true)) }}>редактировать</button>
+                    <button className="btn" onClick={(e) =>  e.stopPropagation(setModalActive(true))}>редактировать</button>
                     <button className={toggle ? "btn_del_ac" : "btn_del"} onClick={(e) => e.stopPropagation(deleteCard())}>удалить</button>
                 </div>
             </div>
