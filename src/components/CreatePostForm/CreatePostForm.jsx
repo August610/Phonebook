@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import s from "./styles.module.css"
 import cn from "classnames";
@@ -11,21 +11,38 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
     });
     const [modalActive, setModalActive] = useState(false);
     const [image, setImage] = useState(cards.image);
+    const [info, setinfo] = useState({
+        name: "",
+        number: "",
+        address: "",
+        email: "",
+    })
 
+    function handleChange(event) {
+        setinfo({ ...info, [event.target.name]: event.target.value })
+    }
 
     function onSubmit(data) {
         handleCreateNewPhone(data, image)
-        console.log(data, image);
+        // console.log(data, image);
+    }
+
+    function reserInfo() {
+        setinfo({
+            name: "",
+            number: "",
+            address: "",
+            email: "",
+        })
     }
 
     function onSubmitImg(data) {
-    //    dataImg.push({...data})
-        // console.log(data);
         setImage(data)
     }
 
-    // console.log(image);
-    
+    function resetImg() {
+        setImage(null);
+    }
 
     class ImageUpload extends React.Component {
         constructor(props) {
@@ -72,22 +89,21 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                             onChange={(e) => this._handleImageChange(e)} />
                         <button className={s.submitButton}
                             type="submit"
-                            onClick={(e) => this._handleSubmit(e)}>Загрузить изображение</button>
+                            onClick={(e) => { this._handleSubmit(e), setModalActive(false) }}>Загрузить изображение</button>
                     </form>
-                    {/* <div className={s.imgPreview}>
-                        {$imagePreview}
-                    </div> */}
                 </div>
             )
         }
     }
+
+
 
     return (
         <>
             <h3 className={s.title}>Добавить пользователя</h3>
             {image ? <img src={image} className={s.imagee} /> : <Out className={s.imagee} onClick={() => { setModalActive(true) }} />}
             <FormMod active={modalActive} setActive={setModalActive}>
-                <ImageUpload/>
+                <ImageUpload />
                 <button onClick={() => { setModalActive(false) }}>Отмена</button>
             </FormMod>
 
@@ -99,6 +115,8 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                         required: 'Это поле обязательно'
                     })}
                     placeholder="Имя"
+                    value={info.name}
+                    onChange={handleChange}
                 />
                 <div>
                     {errors?.name && <p className={s.errorMessage}>{errors?.name?.message}</p>}
@@ -109,6 +127,8 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                         required: 'Это поле обязательно'
                     })}
                     placeholder="Номер"
+                    value={info.number}
+                    onChange={handleChange}
                 />
                 <div>
                     {errors?.number && <p className={s.errorMessage}>{errors?.number?.message}</p>}
@@ -117,11 +137,13 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                     type="text"
                     {...register('email', {
                         pattern: {
-                            value:  /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/,
+                            value: /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/,
                             message: "Email не соответствует формату электронной почты",
                         }
                     })}
                     placeholder="Электронная почта"
+                    value={info.email}
+                    onChange={handleChange} 
                 />
                 {errors?.email && <p className={s.errorMessage}>{errors?.email?.message}</p>}
                 <input className={s.formd}
@@ -130,9 +152,11 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
 
                     })}
                     placeholder="Адрес"
+                    value={info.address}
+                    onChange={handleChange}
                 />
-                <button className={s.button_com} onClick={() => { active(false) }}>Сохранить</button>
-                <button type='reset' className={s.button_com} onClick={() => { active(false) }}>Отмена</button>
+                <button className={s.button_com} onClick={() => { active(false), reserInfo() }}>Сохранить</button>
+                <button type='reset' className={s.button_com} onClick={() => { active(false), reserInfo() }}>Отмена</button>
             </form>
         </>
     )

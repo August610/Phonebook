@@ -78,9 +78,12 @@ export const AppAnt = () => {
   }
 
   function handleCreateNewPhone(data, image) {
-    cards.push({ ...data, id: cards.length, image: image });
+    data.name.split(" ").map(e => console.log(e));
+    cards.unshift({ ...data, id: cards.length, image: image, name: {first : data.name.split(" ")[0], last: data.name.split(" ")[1]}});
     setCards([...cards]);
   }
+
+  // console.log(cards);
 
   function handleUpdateNewPhone(data, id) {
     const newCardsState = cards.map((c) => {
