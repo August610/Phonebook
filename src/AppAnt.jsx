@@ -16,7 +16,7 @@ export const AppAnt = () => {
   const [fetching, setFetching] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
-
+  
 
   const contentPerPage = 20
   const firstIndex = lastIndex - contentPerPage
@@ -47,7 +47,7 @@ export const AppAnt = () => {
       setTotalCount(cards.length);
       setFetching(false)
     }
-  }, [searchQuery, fetching, totalCount])
+  }, [searchQuery, fetching, totalCount, sort, cards])
 
   useEffect(() => {
     document.addEventListener("scroll", scrollHandler)
@@ -146,6 +146,8 @@ export const AppAnt = () => {
     setSort(data)
   }
 
+  
+
   function clearSearch() {
     setSearchQuery("");
   }
@@ -163,7 +165,7 @@ export const AppAnt = () => {
       <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} sort={sort} changeSort={changeSort} toggle={toggle} changeToggle={changeToggle} />
       <main className="content container">
         <div className="content__cards">
-          <Cards cards={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} />
+          <Cards cards={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone}/>
         </div>
       </main>
       <Footer></Footer>

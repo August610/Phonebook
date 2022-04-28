@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
 import { EditPostForm } from "../CreatePostForm/EditForm";
 import { FormMod } from "../FormMod/FormMod";
@@ -7,24 +7,37 @@ import { ReactComponent as Out } from './img/Out.svg'
 export const Card = ({ name, email, address, number, image, handleUpdateNewPhone, id, toggle, handleDeletePhone, cards }) => {
     const [modalActive, setModalActive] = useState(false);
     const [modalActiveInfo, setmodalActiveInfo] = useState(false);
+    // const [info, setinfo] = useState({
+    //     name: name.first,
+    //     number: number,
+    //     address: address,
+    //     email: email,
+    // });
 
-    function deleteCard() {
-        const confirmm = confirm("Удалить контакт?")
-        if (confirmm == true) {
-            handleDeletePhone(id);
-        }
+
+
+
+
+// function changeInfo(data) {
+//     setinfo(data)
+// }
+
+function deleteCard() {
+    const confirmm = confirm("Удалить контакт?")
+    if (confirmm == true) {
+        handleDeletePhone(id);
     }
+}
+// console.log(cards.filter(e => e.id === id).map(e => e.name));
+// console.log(Object.keys(cards.filter(e => e.id === id)).map((e) =>e));
+// console.log(cards.filter(e => e.id === id).map(e => Object.entries(e).map(e => e)));
+// const infoArr = cards.filter(e => e.id === id).map(e => Object.entries(e).filter(e => typeof e === "string"))
+// infoArr.map(e => e.map(e => console.log(e)));
 
-    // console.log(cards.filter(e => e.id === id).map(e => e.name));
-    // console.log(Object.keys(cards.filter(e => e.id === id)).map((e) =>e));
-    // console.log(cards.filter(e => e.id === id).map(e => Object.entries(e).map(e => e)));
-    // const infoArr = cards.filter(e => e.id === id).map(e => Object.entries(e).filter(e => typeof e === "string"))
-    // infoArr.map(e => e.map(e => console.log(e)));
-
-    return (
-        <>
-            <FormMod active={modalActiveInfo} setActive={setmodalActiveInfo}>
-                {/* {infoArr.map(e => e.map((e, i) =>
+return (
+    <>
+        <FormMod active={modalActiveInfo} setActive={setmodalActiveInfo}>
+            {/* {infoArr.map(e => e.map((e, i) =>
                     <div
                         key={i}
                         className="info"
@@ -33,30 +46,29 @@ export const Card = ({ name, email, address, number, image, handleUpdateNewPhone
                     </div>
                     // {name.last} {name.first}
                 ))} */}
-
-                <div className="info">
-                    {image ? <img src={image} className="image_info" alt="img" /> : <Out className="image_info" />}
-                    <div className="info">Имя: {name.last} {name.first} </div>
-                    <div className="info">Телефон: {number}</div>
-                    <div className="info">Адрес: {address}</div>
-                    <div className="info">E-mail: {email}</div>
-                    <button onClick={() => { setmodalActiveInfo(false) }}>Отмена</button>
-                </div>
-            </FormMod>
-            <FormMod active={modalActive} setActive={setModalActive}>
-                <EditPostForm name={name} number={number} address={address} email={email} image={image} id={id} cards={cards} setActive={setModalActive} handleUpdateNewPhone={handleUpdateNewPhone} />
-            </FormMod>
-            <div className="card" onClick={() => { setmodalActiveInfo(true) }}>
-                <div className="card__desc">
-                    {image ? <img src={image} className="card__image" alt="img" /> : <Out className="card__image" />}
-                    <div className="card__name">{name.last} {name.first && name.first} </div>
-                    <div className="card__name">{number}</div>
-                    <div className="card__name">{address}</div>
-                    <div className="card__name">{email}</div>
-                    <button className={toggle ? "btn" : "btn_del"} onClick={(e) => e.stopPropagation(setModalActive(true))}>редактировать</button>
-                    <button className={toggle ? "btn_del_ac" : "btn_del"} onClick={(e) => e.stopPropagation(deleteCard())}>удалить</button>
-                </div>
+            <div className="info">
+                {image ? <img src={image} className="image_info" alt="img" /> : <Out className="image_info" />}
+                <div className="info">Имя: {name.last} {name.first} </div>
+                <div className="info">Телефон: {number}</div>
+                <div className="info">Адрес: {address}</div>
+                <div className="info">E-mail: {email}</div>
+                <button onClick={() => { setmodalActiveInfo(false) }}>Отмена</button>
             </div>
-        </>
-    );
+        </FormMod>
+        <FormMod active={modalActive} setActive={setModalActive}>
+            <EditPostForm name={name} number={number} address={address} email={email} image={image} id={id} cards={cards} setActive={setModalActive} handleUpdateNewPhone={handleUpdateNewPhone}  />
+        </FormMod>
+        <div className="card" onClick={() => { setmodalActiveInfo(true) }}>
+            <div className="card__desc">
+                {image ? <img src={image} className="card__image" alt="img" /> : <Out className="card__image" />}
+                <div className="card__name">{name.last} {name.first && name.first} </div>
+                <div className="card__name">{number}</div>
+                <div className="card__name">{address}</div>
+                <div className="card__name">{email}</div>
+                <button className={toggle ? "btn" : "btn_del"} onClick={(e) => e.stopPropagation(setModalActive(true))}>редактировать</button>
+                <button className={toggle ? "btn_del_ac" : "btn_del"} onClick={(e) => e.stopPropagation(deleteCard())}>удалить</button>
+            </div>
+        </div>
+    </>
+);
 };

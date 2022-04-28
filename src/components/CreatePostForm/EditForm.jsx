@@ -5,18 +5,21 @@ import { ReactComponent as Out } from './img/Out1.svg'
 
 import s from "./styles.module.css"
 
-export function EditPostForm({ name, number, address, email, image, setActive, handleUpdateNewPhone, id, cards }) {
+export function EditPostForm({ name, address, email, number, image, setActive, handleUpdateNewPhone, id, changeInfo }) {
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onBlur"
     });
 
+    // console.log(name.first);
+    
     const [info, setinfo] = useState({
-        name: [name.first, name.last],
+        name: name.first,
         number: number,
         address: address,
         email: email,
     })
+
     const [imageEdit, setimageEdit] = useState(image);
     const [modalActive, setModalActive] = useState(false);
 
