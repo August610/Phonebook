@@ -16,7 +16,7 @@ export const AppAnt = () => {
   const [fetching, setFetching] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
-  
+
 
   const contentPerPage = 20
   const firstIndex = lastIndex - contentPerPage
@@ -24,8 +24,15 @@ export const AppAnt = () => {
 
   const [sort, setSort] = useState(false)
 
+  // console.log(sort);
+
   function records(from, to) {
-    return jsonData.slice(from, to);
+    if (!sort) {
+      return jsonData.slice(from, to);
+    }
+    else {
+      return jsonData.slice(from, to).sort((a, b) => (a.name.last || a.name.first).localeCompare((b.name.last || b.name.first)));
+    }
   }
 
   useEffect(() => {
@@ -84,7 +91,7 @@ export const AppAnt = () => {
   function handleCreateNewPhone(data, image) {
     data.name.split(" ").map(e => console.log(e));
     const [first, last] = data.name.split(" ");
-    cards.unshift({ ...data, id: cards.length, image, name: {first, last}});
+    cards.unshift({ ...data, id: cards.length, image, name: { first, last } });
     setCards([...cards]);
   }
 
@@ -103,16 +110,40 @@ export const AppAnt = () => {
     setCards(newCards);
   }
 
-  const onSortData = (currentSort) => {
-    switch (currentSort) {
-      case "name":
-        setCards([...cards].sort((a, b) => (a.name.first || a.name.last).localeCompare((b.name.first || b.name.last))));
-        break;
+  // const onSortData = (currentSort) => {
+  //   switch (currentSort) {
+  //     case "name":
+  //       setCards([...cards].sort((a, b) => (a.name.first || a.name.last).localeCompare((b.name.first || b.name.last))));
+  //       break;
+  //   }
+  // };
+
+  function sortData(sort) {
+    if (sort) {
+      setCards([...cards].sort((a, b) => (a.name.last || a.name.first).localeCompare((b.name.last || b.name.first))));
     }
-  };
+    else {
+      setCards([...cards].sort((a, b) => (b.name.last || b.name.first).localeCompare((a.name.last || a.name.first))));
+    }
+    // let flag = true,
+    //   // console.log(flag);
+    //   predicates = {
+    //     'asc':
+    //       'desc': ,
+    //   }
+    // return function (data) {
+    //   flag = !flag
+    //   data.sort(predicates[flag ? 'asc' : 'desc'])
+    // }
+  }
 
   function changeToggle(data) {
     setToggle(data);
+  }
+
+  function changeSort(data) {
+    sortData(data);
+    setSort(data)
   }
 
   function clearSearch() {
@@ -129,7 +160,7 @@ export const AppAnt = () => {
           clearSearch={clearSearch}
         />
       </Header>
-      <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} onSortData={onSortData} toggle={toggle} changeToggle={changeToggle} />
+      <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} sort={sort} changeSort={changeSort} toggle={toggle} changeToggle={changeToggle} />
       <main className="content container">
         <div className="content__cards">
           <Cards cards={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} />

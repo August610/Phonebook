@@ -18,18 +18,19 @@ const tabs = [
     },
 ];
 
-export const Form = ({ handleCreateNewPhone, onSortData, cards, toggle, changeToggle}) => {
+export const Form = ({ handleCreateNewPhone, sort, cards, toggle, changeToggle, changeSort}) => {
     const [modalActive, setModalActive] = useState(false);
     const [modalActiveForm, setModalActiveForm] = useState(false);
 
-    const handleClickSort = (data) => {
-        onSortData(data);
-    };
+    // const handleClickSort = (data) => {
+    //     onSortData(data);
+    // };
 
     return (
         <div className={s.form}>
             <Circle className={s.circle} onClick={() => setModalActive(true)} />
-            <Sort tabs={tabs} onChageSort={handleClickSort} />
+            {/* <Sort tabs={tabs} onChageSort={handleClickSort} /> */}
+            <div className={cn(s.col, s.name)} onClick={() => sort ? changeSort(false) : changeSort(true)}>ФИО</div>
             <div className={cn(s.col, s.phone)}>Телефон</div>
             <div className={cn(s.col, s.address)}>Адрес</div>
             <div className={cn(s.col, s.email)}>Электронная почта</div>
