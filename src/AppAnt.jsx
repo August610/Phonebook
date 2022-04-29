@@ -16,22 +16,17 @@ export const AppAnt = () => {
   const [fetching, setFetching] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
-  
-
   const contentPerPage = 20
   const firstIndex = lastIndex - contentPerPage
   const [lastIndex, setLastIndex] = useState(page * contentPerPage);
-
   const [sort, setSort] = useState(false)
-
-  // console.log(sort);
 
   function records(from, to) {
     if (!sort) {
-      return jsonData.slice(from, to);
+      return jsonData.slice(from, to).sort((a, b) => (a.name.last || a.name.first).localeCompare((b.name.last || b.name.first)));
     }
     else {
-      return jsonData.slice(from, to).sort((a, b) => (a.name.last || a.name.first).localeCompare((b.name.last || b.name.first)));
+      return jsonData.slice(from, to).sort((a, b) => (b.name.last || b.name.first).localeCompare((a.name.last || a.name.first)));
     }
   }
 
@@ -41,7 +36,6 @@ export const AppAnt = () => {
 
   useEffect(() => {
     if (fetching) {
-      // console.log("fetching");
       setCards(records(firstIndex, lastIndex));
       setLastIndex(prevState => prevState + 5)
       setTotalCount(cards.length);
@@ -98,6 +92,11 @@ export const AppAnt = () => {
   // console.log(cards);
 
   function handleUpdateNewPhone(data, id) {
+    const [first, last] = data.name.split(" ");
+    data.name = {};
+    data.name.first = first;
+    data.name.last = last;
+    console.log(data);
     const newCardsState = cards.map((c) => {
       return c.id === id ? data : c;
     });
@@ -110,14 +109,6 @@ export const AppAnt = () => {
     setCards(newCards);
   }
 
-  // const onSortData = (currentSort) => {
-  //   switch (currentSort) {
-  //     case "name":
-  //       setCards([...cards].sort((a, b) => (a.name.first || a.name.last).localeCompare((b.name.first || b.name.last))));
-  //       break;
-  //   }
-  // };
-
   function sortData(sort) {
     if (sort) {
       setCards([...cards].sort((a, b) => (a.name.last || a.name.first).localeCompare((b.name.last || b.name.first))));
@@ -125,16 +116,6 @@ export const AppAnt = () => {
     else {
       setCards([...cards].sort((a, b) => (b.name.last || b.name.first).localeCompare((a.name.last || a.name.first))));
     }
-    // let flag = true,
-    //   // console.log(flag);
-    //   predicates = {
-    //     'asc':
-    //       'desc': ,
-    //   }
-    // return function (data) {
-    //   flag = !flag
-    //   data.sort(predicates[flag ? 'asc' : 'desc'])
-    // }
   }
 
   function changeToggle(data) {
@@ -146,10 +127,9 @@ export const AppAnt = () => {
     setSort(data)
   }
 
-  
-
   function clearSearch() {
     setSearchQuery("");
+    setTotalCount(0);
   }
 
   return (
@@ -165,7 +145,7 @@ export const AppAnt = () => {
       <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} sort={sort} changeSort={changeSort} toggle={toggle} changeToggle={changeToggle} />
       <main className="content container">
         <div className="content__cards">
-          <Cards cards={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone}/>
+          <Cards cards={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} sort={sort}/>
         </div>
       </main>
       <Footer></Footer>

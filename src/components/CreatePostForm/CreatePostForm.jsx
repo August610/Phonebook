@@ -24,7 +24,7 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
 
     function onSubmit(data) {
         handleCreateNewPhone(data, image)
-        // console.log(data, image);
+        console.log(data, image);
     }
 
     function reserInfo() {

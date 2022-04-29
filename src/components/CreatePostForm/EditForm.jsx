@@ -1,24 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useReducer, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormMod } from '../FormMod/FormMod';
 import { ReactComponent as Out } from './img/Out1.svg'
 
 import s from "./styles.module.css"
 
-export function EditPostForm({ name, address, email, number, image, setActive, handleUpdateNewPhone, id, changeInfo }) {
+export function EditPostForm({ name, address, email, number, image, setActive, handleUpdateNewPhone, id}) {
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onBlur"
     });
 
-    // console.log(name.first);
-    
     const [info, setinfo] = useState({
-        name: name.first,
+        name: [name.first || name.last],
         number: number,
         address: address,
         email: email,
     })
+
+    console.log(info.name);
 
     const [imageEdit, setimageEdit] = useState(image);
     const [modalActive, setModalActive] = useState(false);
