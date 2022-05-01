@@ -102,7 +102,7 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
             {image ? <img src={image} className={s.imagee} /> : <Out className={s.imagee} onClick={() => { setModalActive(true)}} />}
             <FormMod active={modalActive} setActive={setModalActive}>
                 <ImageUpload />
-                <button onClick={() => { setModalActive(false)}}>Отмена</button>
+                <button onClick={() => { setModalActive(false)}}>Закрыть</button>
             </FormMod>
 
             {/* <Image/> */}
@@ -154,7 +154,7 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                     onChange={handleChange}
                 />
                 <button className={s.button_com} onClick={() => { active(false), reserInfo(), resetImg() }}>Сохранить</button>
-                <button type='reset' className={s.button_com} onClick={() => { active(false), reserInfo(), resetImg() }}>Отмена</button>
+                <button type='reset' className={s.button_com} onClick={() => { active(false), reserInfo(), resetImg() }}>Закрыть</button>
             </form>
         </>
     )

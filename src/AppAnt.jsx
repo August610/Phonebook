@@ -6,7 +6,6 @@ import { Form } from "./components/Form/Form";
 import { Search } from "./components/Search";
 import { Cards } from "./components/Cards";
 
-
 export const AppAnt = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [cards, setCards] = useState([]);
@@ -16,17 +15,28 @@ export const AppAnt = () => {
   const [fetching, setFetching] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
-  const contentPerPage = 20
-  const firstIndex = lastIndex - contentPerPage
+  const contentPerPage = 20;
+  const firstIndex = lastIndex - contentPerPage;
   const [lastIndex, setLastIndex] = useState(page * contentPerPage);
-  const [sort, setSort] = useState(false)
+  const [sort, setSort] = useState(false);
 
   function records(from, to) {
     if (!sort) {
-      return jsonData.slice(from, to).sort((a, b) => (a.name.last || a.name.first).localeCompare((b.name.last || b.name.first)));
-    }
-    else {
-      return jsonData.slice(from, to).sort((a, b) => (b.name.last || b.name.first).localeCompare((a.name.last || a.name.first)));
+      return jsonData
+        .slice(from, to)
+        .sort((a, b) =>
+          (a.name.last || a.name.first).localeCompare(
+            b.name.last || b.name.first
+          )
+        );
+    } else {
+      return jsonData
+        .slice(from, to)
+        .sort((a, b) =>
+          (b.name.last || b.name.first).localeCompare(
+            a.name.last || a.name.first
+          )
+        );
     }
   }
 
@@ -37,59 +47,67 @@ export const AppAnt = () => {
   useEffect(() => {
     if (fetching) {
       setCards(records(firstIndex, lastIndex));
-      setLastIndex(prevState => prevState + 5)
+      setLastIndex((prevState) => prevState + 5);
       setTotalCount(cards.length);
-      setFetching(false)
+      setFetching(false);
     }
-  }, [searchQuery, fetching, totalCount, sort, cards])
+  }, [searchQuery, fetching, totalCount, sort, cards]);
 
   useEffect(() => {
-    document.addEventListener("scroll", scrollHandler)
+    document.addEventListener("scroll", scrollHandler);
     return function () {
-      document.removeEventListener("scroll", scrollHandler)
+      document.removeEventListener("scroll", scrollHandler);
     };
-  }, [totalCount])
+  }, [totalCount]);
 
   const scrollHandler = (e) => {
-    if ((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) && totalCount < jsonData.length) {
-      setTotalCount(prevState => prevState + 5);
-      setFetching(true)
+    if (
+      e.target.documentElement.scrollHeight -
+        (e.target.documentElement.scrollTop + window.innerHeight) <
+        100 &&
+      totalCount < jsonData.length
+    ) {
+      setTotalCount((prevState) => prevState + 5);
+      setFetching(true);
     }
-  }
+  };
+
+  const includesQuery = (item) =>
+    item.toLowerCase().includes(searchQuery.toLowerCase());
 
   const handleRequest = () => {
-    if (searchQuery !== '') {
-      const filterCards = jsonData.filter(item =>
-        item.name.last.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        // Object.values(item).filter(item => typeof item == 'string').map(e => e.toLowerCase().includes(searchQuery.toLowerCase()))) 
-        item.name.first && item.name.first.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.number && item.number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.address && item.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.email && item.email.toLowerCase().includes(searchQuery.toLowerCase()))
-      setCards(filterCards)
+    if (searchQuery !== "") {
+      const filterCards = jsonData.filter(
+        (item) =>
+          includesQuery(item.name.last) ||
+          // Object.values(item).filter(item => typeof item == 'string').map(e => e.toLowerCase().includes(searchQuery.toLowerCase())))
+          (item.name.first && includesQuery(item.name.first)) ||
+          (item.number && includesQuery(item.number)) ||
+          (item.address && includesQuery(item.address)) ||
+          (item.email && includesQuery(item.email))
+      );
+      setCards(filterCards);
     }
 
-    if (searchQuery === '') {
+    if (searchQuery === "") {
       setCards(records(firstIndex, contentPerPage));
     }
-  }
+  };
 
   const handleInputChange = (inputValue) => {
-    setSearchQuery(inputValue)
-  }
+    setSearchQuery(inputValue);
+  };
 
   const handleFormSubmit = () => {
     handleRequest();
-  }
+  };
 
   function handleCreateNewPhone(data, image) {
-    data.name.split(" ").map(e => console.log(e));
+    data.name.split(" ").map((e) => console.log(e));
     const [first, last] = data.name.split(" ");
     cards.unshift({ ...data, id: cards.length, image, name: { first, last } });
     setCards([...cards]);
   }
-
-  // console.log(cards);
 
   function handleUpdateNewPhone(data, id) {
     const [first, last] = data.name.split(" ");
@@ -111,10 +129,21 @@ export const AppAnt = () => {
 
   function sortData(sort) {
     if (sort) {
-      setCards([...cards].sort((a, b) => (a.name.last || a.name.first).localeCompare((b.name.last || b.name.first))));
-    }
-    else {
-      setCards([...cards].sort((a, b) => (b.name.last || b.name.first).localeCompare((a.name.last || a.name.first))));
+      setCards(
+        [...cards].sort((a, b) =>
+          (a.name.last || a.name.first).localeCompare(
+            b.name.last || b.name.first
+          )
+        )
+      );
+    } else {
+      setCards(
+        [...cards].sort((a, b) =>
+          (b.name.last || b.name.first).localeCompare(
+            a.name.last || a.name.first
+          )
+        )
+      );
     }
   }
 
@@ -124,7 +153,7 @@ export const AppAnt = () => {
 
   function changeSort(data) {
     sortData(data);
-    setSort(data)
+    setSort(data);
   }
 
   function clearSearch() {
@@ -142,10 +171,23 @@ export const AppAnt = () => {
           clearSearch={clearSearch}
         />
       </Header>
-      <Form handleCreateNewPhone={handleCreateNewPhone} cards={cards} sort={sort} changeSort={changeSort} toggle={toggle} changeToggle={changeToggle} />
+      <Form
+        handleCreateNewPhone={handleCreateNewPhone}
+        cards={cards}
+        sort={sort}
+        changeSort={changeSort}
+        toggle={toggle}
+        changeToggle={changeToggle}
+      />
       <main className="content container">
         <div className="content__cards">
-          <Cards cards={cards} handleUpdateNewPhone={handleUpdateNewPhone} toggle={toggle} handleDeletePhone={handleDeletePhone} sort={sort}/>
+          <Cards
+            cards={cards}
+            handleUpdateNewPhone={handleUpdateNewPhone}
+            toggle={toggle}
+            handleDeletePhone={handleDeletePhone}
+            sort={sort}
+          />
         </div>
       </main>
       <Footer></Footer>

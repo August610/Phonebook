@@ -18,7 +18,17 @@ export function EditPostForm({ name, address, email, number, image, setActive, h
         email: email,
     })
 
-    console.log(info.name);
+    useEffect(() => {
+        setinfo({
+          name: [name.first || name.last],
+          number: number,
+          address: address,
+          email: email,
+        });
+        setimageEdit(image);
+      }, [name, address, email, number, image, id]);
+
+    // console.log(info.name);
 
     const [imageEdit, setimageEdit] = useState(image);
     const [modalActive, setModalActive] = useState(false);
@@ -95,7 +105,7 @@ export function EditPostForm({ name, address, email, number, image, setActive, h
         <>
             <FormMod active={modalActive} setActive={setModalActive}>
                 <ImageUpload />
-                <button onClick={() => { setModalActive(false) }}>Отмена</button>
+                <button onClick={() => { setModalActive(false) }}>Закрыть</button>
             </FormMod>
             <h3>Редактировать пользователя</h3>
             <div onClick={() => { setModalActive(true) }}> {imageEdit ? <img src={imageEdit} className={s.imagee} alt="img" /> : <Out className={s.image} />}</div>
@@ -142,7 +152,7 @@ export function EditPostForm({ name, address, email, number, image, setActive, h
                     value={info.email}
                     onChange={handleChange}
                 />
-                <button className={s.button_com} onClick={() => { setActive(false) }}>Сохранить</button> <button type='reset' className={s.button_com} onClick={() => { setActive(false) }}>Отмена</button>
+                <button className={s.button_com} onClick={() => { setActive(false) }}>Сохранить</button> <button type='reset' className={s.button_com} onClick={() => { setActive(false) }}>Закрыть</button>
             </form>
 
         </>

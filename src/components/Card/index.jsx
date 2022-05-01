@@ -40,7 +40,7 @@ export const Card = ({ name, email, address, number, image, handleUpdateNewPhone
                     <div className="info">Телефон: {number}</div>
                     <div className="info">Адрес: {address}</div>
                     <div className="info">E-mail: {email}</div>
-                    <button onClick={() => { setmodalActiveInfo(false) }}>Отмена</button>
+                    <button onClick={() => { setmodalActiveInfo(false) }}>Закрыть</button>
                 </div>
             </FormMod>
             <FormMod active={modalActive} setActive={setModalActive}>
