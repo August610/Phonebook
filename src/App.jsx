@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import jsonData from "./data.json";
-import { Form } from "./components/Form/Form";
+import { Menu } from "./components/Menu/Menu";
 import { Search } from "./components/Search";
-import { Cards } from "./components/Cards";
+import { Contacts } from "./components/Contacts";
+import { AppContext } from "./components/context/appContext";
 
-export const AppAnt = () => {
+export const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [cards, setCards] = useState([]);
-  const [toggle, setToggle] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   const [page, setPage] = useState(1);
   const [fetching, setFetching] = useState(true);
@@ -64,7 +65,7 @@ export const AppAnt = () => {
     if (
       e.target.documentElement.scrollHeight -
         (e.target.documentElement.scrollTop + window.innerHeight) <
-        100 &&
+        200 &&
       totalCount < jsonData.length
     ) {
       setTotalCount((prevState) => prevState + 5);
@@ -80,7 +81,6 @@ export const AppAnt = () => {
       const filterCards = jsonData.filter(
         (item) =>
           includesQuery(item.name.last) ||
-          // Object.values(item).filter(item => typeof item == 'string').map(e => e.toLowerCase().includes(searchQuery.toLowerCase())))
           (item.name.first && includesQuery(item.name.first)) ||
           (item.number && includesQuery(item.number)) ||
           (item.address && includesQuery(item.address)) ||
@@ -128,7 +128,7 @@ export const AppAnt = () => {
   }
 
   function sortData(sort) {
-    if (sort) {
+    if (!sort) {
       setCards(
         [...cards].sort((a, b) =>
           (a.name.last || a.name.first).localeCompare(
@@ -147,8 +147,8 @@ export const AppAnt = () => {
     }
   }
 
-  function changeToggle(data) {
-    setToggle(data);
+  function changeMode(data) {
+    setEditMode(data);
   }
 
   function changeSort(data) {
@@ -163,34 +163,36 @@ export const AppAnt = () => {
 
   return (
     <>
-      <Header>
-        <Search
-          searchText={searchQuery}
-          handleInputChange={handleInputChange}
-          handleFormSubmit={handleFormSubmit}
-          clearSearch={clearSearch}
-        />
-      </Header>
-      <Form
-        handleCreateNewPhone={handleCreateNewPhone}
-        cards={cards}
-        sort={sort}
-        changeSort={changeSort}
-        toggle={toggle}
-        changeToggle={changeToggle}
-      />
-      <main className="content container">
-        <div className="content__cards">
-          <Cards
-            cards={cards}
-            handleUpdateNewPhone={handleUpdateNewPhone}
-            toggle={toggle}
-            handleDeletePhone={handleDeletePhone}
-            sort={sort}
+      <AppContext.Provider
+        value={{
+          sort,
+          cards,
+          editMode,
+          changeMode,
+          changeSort,
+          handleUpdateNewPhone,
+          handleCreateNewPhone,
+          handleDeletePhone,
+        }}
+      >
+        <Header>
+          <Search
+            searchText={searchQuery}
+            handleInputChange={handleInputChange}
+            handleFormSubmit={handleFormSubmit}
+            clearSearch={clearSearch}
           />
-        </div>
-      </main>
-      <Footer></Footer>
+        </Header>
+        <Menu/>
+        <main className="content container">
+          <div className="content__cards">
+            <Contacts
+              cards={cards}
+            />
+          </div>
+        </main>
+        <Footer></Footer>
+      </AppContext.Provider>
     </>
   );
 };

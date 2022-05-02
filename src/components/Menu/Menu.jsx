@@ -1,37 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import s from "./styles.module.css";
 import cn from "classnames";
-import { Modal } from "../Modal/Modal";
+import { ModalMenu } from "../ModalMenu/ModalMenu";
 import { ReactComponent as Add } from "./img/add.svg";
 import { ReactComponent as Edit } from "./img/Edit.svg";
 import { ReactComponent as Import } from "./img/Import.svg";
 import { ReactComponent as Export } from "./img/Export.svg";
 import { ReactComponent as Circle } from "./img/circle.svg";
-import { CreatePostForm } from "../CreatePostForm/CreatePostForm";
-import { FormMod } from "../FormMod/FormMod";
-import { Sort } from "../Sort";
+import { CreateContactForm } from "../ContactForm/CreateContactForm";
+import { ModalForm } from "../ModalForm/ModalForm";
+import { AppContext } from "../context/appContext";
 
-const tabs = [
-  {
-    id: "name",
-    title: "ФИО",
-  },
-];
-
-export const Form = ({
-  handleCreateNewPhone,
-  sort,
-  cards,
-  toggle,
-  changeToggle,
-  changeSort,
-}) => {
+export const Menu = () => {
   const [modalActive, setModalActive] = useState(false);
   const [modalActiveForm, setModalActiveForm] = useState(false);
 
-  // const handleClickSort = (data) => {
-  //     onSortData(data);
-  // };
+  const { sort, editMode, changeSort, changeMode } = useContext(AppContext);
 
   return (
     <div className={s.form}>
@@ -50,7 +34,7 @@ export const Form = ({
         <div className={cn(s.col, s.email)}>Электронная почта</div>
       </div>
 
-      <Modal active={modalActive} setActive={setModalActive}>
+      <ModalMenu active={modalActive} setActive={setModalActive}>
         <div className={s.wrapper}>
           <div
             className={s.item}
@@ -63,7 +47,8 @@ export const Form = ({
               <Add className={s.icon} />
               <br />
               Добавить
-              <br /> пользователя
+              <br /> 
+              пользователя
             </span>
           </div>
           <div className={s.item}>
@@ -87,7 +72,7 @@ export const Form = ({
           <div
             className={s.item}
             onClick={() => {
-              toggle ? changeToggle(false) : changeToggle(true);
+              editMode ? changeMode(false) : changeMode(true);
               setModalActive(false);
             }}
           >
@@ -100,14 +85,12 @@ export const Form = ({
             </span>
           </div>
         </div>
-      </Modal>
-      <FormMod active={modalActiveForm} setActive={setModalActiveForm}>
-        <CreatePostForm
+      </ModalMenu>
+      <ModalForm active={modalActiveForm} setActive={setModalActiveForm}>
+        <CreateContactForm
           active={setModalActiveForm}
-          handleCreateNewPhone={handleCreateNewPhone}
-          cards={cards}
-        ></CreatePostForm>
-      </FormMod>
+        ></CreateContactForm>
+      </ModalForm>
     </div>
   );
 };

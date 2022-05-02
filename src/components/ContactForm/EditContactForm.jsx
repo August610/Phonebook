@@ -1,47 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import s from "./styles.module.css"
-import cn from "classnames";
+import { AppContext } from '../context/appContext';
+import { ModalForm } from '../ModalForm/ModalForm';
 import { ReactComponent as Out } from './img/Out1.svg'
-import { FormMod } from '../FormMod/FormMod';
-export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
+
+import s from "./styles.module.css"
+
+export function EditContactForm({ name, address, email, number, image, setActive, id}) {
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onBlur"
     });
-    const [modalActive, setModalActive] = useState(false);
-    const [image, setImage] = useState(cards.image);
+
+    const { handleUpdateNewPhone } = useContext(AppContext);
+
     const [info, setinfo] = useState({
-        name: "",
-        number: "",
-        address: "",
-        email: "",
+        name: [name.first || name.last],
+        number: number,
+        address: address,
+        email: email,
     })
 
-    function handleChange(event) {
-        setinfo({ ...info, [event.target.name]: event.target.value })
-    }
+    useEffect(() => {
+        setinfo({
+          name: [name.first || name.last],
+          number: number,
+          address: address,
+          email: email,
+        });
+        setimageEdit(image);
+      }, [name, address, email, number, image, id]);
+
+    // console.log(info.name);
+
+    const [imageEdit, setimageEdit] = useState(image);
+    const [modalActive, setModalActive] = useState(false);
 
     function onSubmit(data) {
-        handleCreateNewPhone(data, image)
-        console.log(data, image);
-    }
-
-    function reserInfo() {
-        setinfo({
-            name: "",
-            number: "",
-            address: "",
-            email: "",
-        })
+        handleUpdateNewPhone(data, id)
+        console.log(data);
     }
 
     function onSubmitImg(data) {
-        setImage(data)
+        setimageEdit(data)
     }
 
-    function resetImg() {
-        setImage(null);
+    function handleChange(event) {
+        setinfo({ ...info, [event.target.name]: event.target.value })
     }
 
     class ImageUpload extends React.Component {
@@ -89,8 +94,11 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                             onChange={(e) => this._handleImageChange(e)} />
                         <button className={s.submitButton}
                             type="submit"
-                            onClick={(e) => { this._handleSubmit(e), setModalActive(false) }}>Загрузить изображение</button>
+                            onClick={(e) => this._handleSubmit(e)}>Загрузить изображение</button>
                     </form>
+                    {/* <div className={s.imgPreview}>
+                        {$imagePreview}
+                    </div> */}
                 </div>
             )
         }
@@ -98,14 +106,12 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
 
     return (
         <>
-            <h3 className={s.title}>Добавить пользователя</h3>
-            {image ? <img src={image} className={s.imagee} /> : <Out className={s.imagee} onClick={() => { setModalActive(true)}} />}
-            <FormMod active={modalActive} setActive={setModalActive}>
+            <ModalForm active={modalActive} setActive={setModalActive}>
                 <ImageUpload />
-                <button onClick={() => { setModalActive(false)}}>Закрыть</button>
-            </FormMod>
-
-            {/* <Image/> */}
+                <button onClick={() => { setModalActive(false) }}>Закрыть</button>
+            </ModalForm>
+            <h3>Редактировать пользователя</h3>
+            <div onClick={() => { setModalActive(true) }}> {imageEdit ? <img src={imageEdit} className={s.imagee} alt="img" /> : <Out className={s.image} />}</div>
             <form className={s.form_title} onSubmit={handleSubmit(onSubmit)}>
                 <input className={s.formd}
                     type="text"
@@ -117,33 +123,20 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                     onChange={handleChange}
                 />
                 <div>
-                    {errors?.name && <p className={s.errorMessage}>{errors?.name?.message}</p>}
+                    {errors?.title && <p className={s.errorMessage}>{errors?.title?.message}</p>}
                 </div>
-                <input className={cn(s.formd)}
+                <input className={s.formd}
                     type="text"
                     {...register('number', {
                         required: 'Это поле обязательно'
                     })}
-                    placeholder="Номер"
+                    placeholder="Телефон"
                     value={info.number}
                     onChange={handleChange}
                 />
                 <div>
-                    {errors?.number && <p className={s.errorMessage}>{errors?.number?.message}</p>}
+                    {errors?.text && <p className={s.errorMessage}>{errors?.text?.message}</p>}
                 </div>
-                <input className={s.formd}
-                    type="text"
-                    {...register('email', {
-                        pattern: {
-                            value: /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/,
-                            message: "Email не соответствует формату электронной почты",
-                        }
-                    })}
-                    placeholder="Электронная почта"
-                    value={info.email}
-                    onChange={handleChange}
-                />
-                {errors?.email && <p className={s.errorMessage}>{errors?.email?.message}</p>}
                 <input className={s.formd}
                     type="text"
                     {...register('address', {
@@ -153,9 +146,18 @@ export function CreatePostForm({ active, handleCreateNewPhone, cards }) {
                     value={info.address}
                     onChange={handleChange}
                 />
-                <button className={s.button_com} onClick={() => { active(false), reserInfo(), resetImg() }}>Сохранить</button>
-                <button type='reset' className={s.button_com} onClick={() => { active(false), reserInfo(), resetImg() }}>Закрыть</button>
+                <input className={s.formd}
+                    type="text"
+                    {...register('email', {
+
+                    })}
+                    placeholder="Электронный адрес"
+                    value={info.email}
+                    onChange={handleChange}
+                />
+                <button className={s.button_com} onClick={() => { setActive(false) }}>Сохранить</button> <button type='reset' className={s.button_com} onClick={() => { setActive(false) }}>Закрыть</button>
             </form>
+
         </>
     )
 }

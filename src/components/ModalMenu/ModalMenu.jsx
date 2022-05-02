@@ -2,17 +2,17 @@ import React from 'react';
 import "./styles.css";
 import  cn  from 'classnames';
 
-export function FormMod({active, setActive, children}) {
+export function ModalMenu({active, setActive, children}) {
     return (
         <div 
-            className={cn('modall',
+            className={cn('modal',
             {
-                'modall_active': active
+                'modal_active': active
             })} 
             onClick={()=> 
             setActive(false)
         }>
-            <div className="modall__content" onClick={(e)=> e.stopPropagation()}>
+            <div className="modal__content" onClick={(e)=> e.stopPropagation()}>
                {children}
             </div>
         </div>
