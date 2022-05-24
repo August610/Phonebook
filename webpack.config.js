@@ -15,6 +15,9 @@ module.exports = {
     open: true, // сайт будет открываться сам при запуске npm run dev
     hot: true,
   },
+  optimization: {
+    minimize: false
+  },
   //Нужно помочь вебпаку научится работать с jsx файлами для этого используют babel loader
   module: {
     rules: [

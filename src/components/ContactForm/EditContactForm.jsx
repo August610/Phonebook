@@ -28,12 +28,12 @@ export function EditContactForm({ name, address, email, number, image, setActive
           address: address,
           email: email,
         });
-        setimageEdit(image);
+        setImageEdit(image);
       }, [name, address, email, number, image, id]);
 
     // console.log(info.name);
 
-    const [imageEdit, setimageEdit] = useState(image);
+    const [imageEdit, setImageEdit] = useState(image);
     const [modalActive, setModalActive] = useState(false);
 
     function onSubmit(data) {
@@ -42,7 +42,7 @@ export function EditContactForm({ name, address, email, number, image, setActive
     }
 
     function onSubmitImg(data) {
-        setimageEdit(data)
+        setImageEdit(data)
     }
 
     function handleChange(event) {
@@ -155,7 +155,12 @@ export function EditContactForm({ name, address, email, number, image, setActive
                     value={info.email}
                     onChange={handleChange}
                 />
-                <button className={s.button_com} onClick={() => { setActive(false) }}>Сохранить</button> <button type='reset' className={s.button_com} onClick={() => { setActive(false) }}>Закрыть</button>
+                <button className={s.button_com} onClick={() => { setActive(false) }}>Сохранить</button> <button type='reset' className={s.button_com} onClick={() => { setActive(false), setinfo({
+          name: [name.first || name.last],
+          number: number,
+          address: address,
+          email: email,
+        }); }}>Закрыть</button>
             </form>
 
         </>

@@ -171,11 +171,11 @@ export function CreateContactForm({ active }) {
           className={s.formd}
           type="text"
           {...register("email", {
-            pattern: {
-              value:
-                /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/,
-              message: "Email не соответствует формату электронной почты",
-            },
+            // pattern: {
+            //   value:
+            //     /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/,
+            //   message: "Email не соответствует формату электронной почты",
+            // },
           })}
           placeholder="Электронная почта"
           value={info.email}

@@ -9,6 +9,7 @@ import { AppContext } from "./components/context/appContext";
 
 export const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [dataPhone, setDataPhone] = useState(jsonData);
   const [cards, setCards] = useState([]);
   const [editMode, setEditMode] = useState(false);
 
@@ -21,9 +22,10 @@ export const App = () => {
   const [lastIndex, setLastIndex] = useState(page * contentPerPage);
   const [sort, setSort] = useState(false);
 
+  console.log(dataPhone);
   function records(from, to) {
     if (!sort) {
-      return jsonData
+      return dataPhone
         .slice(from, to)
         .sort((a, b) =>
           (a.name.last || a.name.first).localeCompare(
@@ -31,7 +33,7 @@ export const App = () => {
           )
         );
     } else {
-      return jsonData
+      return dataPhone
         .slice(from, to)
         .sort((a, b) =>
           (b.name.last || b.name.first).localeCompare(
@@ -64,9 +66,10 @@ export const App = () => {
   const scrollHandler = (e) => {
     if (
       e.target.documentElement.scrollHeight -
-        (e.target.documentElement.scrollTop + window.innerHeight) <
-        200 &&
-      totalCount < jsonData.length
+      (e.target.documentElement.scrollTop + window.innerHeight) <
+      100 
+      &&
+      totalCount < dataPhone.length
     ) {
       setTotalCount((prevState) => prevState + 5);
       setFetching(true);
@@ -78,7 +81,7 @@ export const App = () => {
 
   const handleRequest = () => {
     if (searchQuery !== "") {
-      const filterCards = jsonData.filter(
+      const filterCards = dataPhone.filter(
         (item) =>
           includesQuery(item.name.last) ||
           (item.name.first && includesQuery(item.name.first)) ||
@@ -91,6 +94,7 @@ export const App = () => {
 
     if (searchQuery === "") {
       setCards(records(firstIndex, contentPerPage));
+      setTotalCount(0);
     }
   };
 
@@ -104,9 +108,13 @@ export const App = () => {
 
   function handleCreateNewPhone(data, image) {
     data.name.split(" ").map((e) => console.log(e));
-    const [first, last] = data.name.split(" ");
-    cards.unshift({ ...data, id: cards.length, image, name: { first, last } });
-    setCards([...cards]);
+    let [first, last] = data.name.split(" ");
+    if(last == undefined) {
+      last = "";
+    }
+    console.log("last",  last);
+    dataPhone.unshift({ ...data, id: cards.length, image, name: { first, last } });
+    setCards([...dataPhone]);
   }
 
   function handleUpdateNewPhone(data, id) {
@@ -115,7 +123,7 @@ export const App = () => {
     data.name.first = first;
     data.name.last = last;
     console.log(data);
-    const newCardsState = cards.map((c) => {
+    const newCardsState = dataPhone.map((c) => {
       return c.id === id ? data : c;
     });
     // cards.splice(cards.indexOf(cards.find(e => e.id === id)), 1, data)
@@ -123,14 +131,14 @@ export const App = () => {
   }
 
   function handleDeletePhone(id) {
-    const newCards = cards.filter((card) => card.id !== id);
+    const newCards = dataPhone.filter((card) => card.id !== id);
     setCards(newCards);
   }
 
   function sortData(sort) {
     if (!sort) {
       setCards(
-        [...cards].sort((a, b) =>
+        [...dataPhone].sort((a, b) =>
           (a.name.last || a.name.first).localeCompare(
             b.name.last || b.name.first
           )
@@ -138,7 +146,7 @@ export const App = () => {
       );
     } else {
       setCards(
-        [...cards].sort((a, b) =>
+        [...dataPhone].sort((a, b) =>
           (b.name.last || b.name.first).localeCompare(
             a.name.last || a.name.first
           )
@@ -183,7 +191,7 @@ export const App = () => {
             clearSearch={clearSearch}
           />
         </Header>
-        <Menu/>
+        <Menu />
         <main className="content container">
           <div className="content__cards">
             <Contacts
