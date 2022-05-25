@@ -15,7 +15,7 @@ export function EditContactForm({ name, address, email, number, image, setActive
     const { handleUpdateNewPhone } = useContext(AppContext);
 
     const [info, setinfo] = useState({
-        name: [name.first || name.last],
+        name: (name.first + " " + (name.last !== undefined ? name.last : null)),
         number: number,
         address: address,
         email: email,
@@ -23,12 +23,12 @@ export function EditContactForm({ name, address, email, number, image, setActive
 
     useEffect(() => {
         setinfo({
-          name: [name.first || name.last],
+          name: (name.first + " " + (name.last !== undefined ? name.last : null)),
           number: number,
           address: address,
           email: email,
         });
-        setImageEdit(image);
+        setImageEdit(imageEdit);
       }, [name, address, email, number, image, id]);
 
     // console.log(info.name);
@@ -37,7 +37,7 @@ export function EditContactForm({ name, address, email, number, image, setActive
     const [modalActive, setModalActive] = useState(false);
 
     function onSubmit(data) {
-        handleUpdateNewPhone(data, id)
+        handleUpdateNewPhone(data, id, imageEdit)
         console.log(data);
     }
 

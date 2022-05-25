@@ -18,6 +18,8 @@ export const Contact = ({ name, email, address, number, image, id }) => {
     }
   }
 
+  console.log("image", image);
+
   return (
     <>
       <ModalForm active={modalActiveInfo} setActive={setmodalActiveInfo}>

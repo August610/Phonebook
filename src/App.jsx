@@ -22,24 +22,24 @@ export const App = () => {
   const [lastIndex, setLastIndex] = useState(page * contentPerPage);
   const [sort, setSort] = useState(false);
 
-  console.log(dataPhone);
+  // console.log(dataPhone);
   function records(from, to) {
     if (!sort) {
       return dataPhone
         .slice(from, to)
-        .sort((a, b) =>
-          (a.name.last || a.name.first).localeCompare(
-            b.name.last || b.name.first
-          )
-        );
+      .sort((a, b) =>
+        (a.name.last || a.name.first).localeCompare(
+          b.name.last || b.name.first
+        )
+      );
     } else {
       return dataPhone
         .slice(from, to)
-        .sort((a, b) =>
-          (b.name.last || b.name.first).localeCompare(
-            a.name.last || a.name.first
-          )
-        );
+      .sort((a, b) =>
+        (b.name.last || b.name.first).localeCompare(
+          a.name.last || a.name.first
+        )
+      );
     }
   }
 
@@ -49,12 +49,13 @@ export const App = () => {
 
   useEffect(() => {
     if (fetching) {
+      setCards(dataPhone);
       setCards(records(firstIndex, lastIndex));
       setLastIndex((prevState) => prevState + 5);
       setTotalCount(cards.length);
       setFetching(false);
     }
-  }, [searchQuery, fetching, totalCount, sort, cards]);
+  }, [searchQuery, fetching, totalCount, sort, cards, dataPhone]);
 
   useEffect(() => {
     document.addEventListener("scroll", scrollHandler);
@@ -67,7 +68,7 @@ export const App = () => {
     if (
       e.target.documentElement.scrollHeight -
       (e.target.documentElement.scrollTop + window.innerHeight) <
-      100 
+      100
       &&
       totalCount < dataPhone.length
     ) {
@@ -75,6 +76,23 @@ export const App = () => {
       setFetching(true);
     }
   };
+
+  const sortPhone = (item) => {
+    if (!sort) {
+      item.sort((a, b) =>
+        (a.name.last || a.name.first).localeCompare(
+          b.name.last || b.name.first
+        )
+      );
+    } else {
+      item.sort((a, b) =>
+        (b.name.last || b.name.first).localeCompare(
+          a.name.last || a.name.first
+        )
+      );
+    }
+  }
+
 
   const includesQuery = (item) =>
     item.toLowerCase().includes(searchQuery.toLowerCase());
@@ -109,25 +127,33 @@ export const App = () => {
   function handleCreateNewPhone(data, image) {
     data.name.split(" ").map((e) => console.log(e));
     let [first, last] = data.name.split(" ");
-    if(last == undefined) {
+    if (last == undefined) {
       last = "";
     }
-    console.log("last",  last);
+    // console.log("last", last);
     dataPhone.unshift({ ...data, id: cards.length, image, name: { first, last } });
+    console.log("image", image);
+    setDataPhone([...dataPhone]);
     setCards([...dataPhone]);
   }
 
-  function handleUpdateNewPhone(data, id) {
-    const [first, last] = data.name.split(" ");
+  function handleUpdateNewPhone(data, id, imageEdit) {
+    let [first, last] = data.name.split(" ");
+    if (last == undefined) {
+      last = "";
+    }
     data.name = {};
     data.name.first = first;
     data.name.last = last;
+    dataPhone.image = imageEdit;
+
     console.log(data);
     const newCardsState = dataPhone.map((c) => {
       return c.id === id ? data : c;
     });
     // cards.splice(cards.indexOf(cards.find(e => e.id === id)), 1, data)
-    setCards(newCardsState);
+    setDataPhone(newCardsState);
+    setCards(newCardsState)
   }
 
   function handleDeletePhone(id) {

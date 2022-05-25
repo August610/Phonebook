@@ -16,6 +16,7 @@ export function CreateContactForm({ active }) {
   const { handleCreateNewPhone, cards } = useContext(AppContext);
   const [modalActive, setModalActive] = useState(false);
   const [image, setImage] = useState(cards.image);
+  // console.log(image);
   const [info, setinfo] = useState({
     name: "",
     number: "",
@@ -23,6 +24,7 @@ export function CreateContactForm({ active }) {
     email: "",
   });
 
+  console.log("image create", image);
   function handleChange(event) {
     setinfo({ ...info, [event.target.name]: event.target.value });
   }
@@ -42,6 +44,7 @@ export function CreateContactForm({ active }) {
   }
 
   function onSubmitImg(data) {
+    // console.log(data);
     setImage(data);
   }
 
@@ -195,7 +198,7 @@ export function CreateContactForm({ active }) {
         <button
           className={s.button_com}
           onClick={() => {
-            active(false), reserInfo(), resetImg();
+            active(false), reserInfo();
           }}
         >
           Сохранить
