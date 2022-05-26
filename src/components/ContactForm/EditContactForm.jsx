@@ -15,30 +15,29 @@ export function EditContactForm({ name, address, email, number, image, setActive
     const { handleUpdateNewPhone } = useContext(AppContext);
 
     const [info, setinfo] = useState({
-        name: (name.first + " " + (name.last !== undefined ? name.last : null)),
+        name: ((name.first !== undefined ? name.first : "") + " " + (name.last !== undefined ? name.last : "")),
         number: number,
         address: address,
         email: email,
     })
 
+    const [imageEdit, setImageEdit] = useState(image);
+
     useEffect(() => {
         setinfo({
-          name: (name.first + " " + (name.last !== undefined ? name.last : null)),
+          name: ((name.first !== undefined ? name.first : "") + " " + (name.last !== undefined ? name.last : "")),
           number: number,
           address: address,
           email: email,
         });
-        setImageEdit(imageEdit);
+        setImageEdit(image);
       }, [name, address, email, number, image, id]);
-
-    // console.log(info.name);
-
-    const [imageEdit, setImageEdit] = useState(image);
+    
     const [modalActive, setModalActive] = useState(false);
 
     function onSubmit(data) {
         handleUpdateNewPhone(data, id, imageEdit)
-        console.log(data);
+        // console.log(data);
     }
 
     function onSubmitImg(data) {
@@ -57,7 +56,7 @@ export function EditContactForm({ name, address, email, number, image, setActive
 
         _handleSubmit(e) {
             e.preventDefault();
-            console.log('handle uploading-', this.state.file);
+            // console.log('handle uploading-', this.state.file);
             onSubmitImg(this.state.imagePreviewUrl)
         }
 

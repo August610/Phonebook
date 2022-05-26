@@ -18,7 +18,7 @@ export const Contact = ({ name, email, address, number, image, id }) => {
     }
   }
 
-  console.log("image", image);
+  // console.log("image", image);
 
   return (
     <>

@@ -13,6 +13,8 @@ export const App = () => {
   const [cards, setCards] = useState([]);
   const [editMode, setEditMode] = useState(false);
 
+  // console.log(dataPhone);
+
   const [page, setPage] = useState(1);
   const [fetching, setFetching] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
@@ -22,7 +24,6 @@ export const App = () => {
   const [lastIndex, setLastIndex] = useState(page * contentPerPage);
   const [sort, setSort] = useState(false);
 
-  // console.log(dataPhone);
   function records(from, to) {
     if (!sort) {
       return dataPhone
@@ -130,34 +131,33 @@ export const App = () => {
     if (last == undefined) {
       last = "";
     }
-    // console.log("last", last);
     dataPhone.unshift({ ...data, id: cards.length, image, name: { first, last } });
-    console.log("image", image);
     setDataPhone([...dataPhone]);
     setCards([...dataPhone]);
   }
 
-  function handleUpdateNewPhone(data, id, imageEdit) {
+  function handleUpdateNewPhone(data, id, image) {
     let [first, last] = data.name.split(" ");
     if (last == undefined) {
       last = "";
     }
+    console.log("data", data);
     data.name = {};
+    data.image = image;
+    data.id = id;
+    console.log(id);
     data.name.first = first;
     data.name.last = last;
-    dataPhone.image = imageEdit;
-
-    console.log(data);
     const newCardsState = dataPhone.map((c) => {
       return c.id === id ? data : c;
     });
-    // cards.splice(cards.indexOf(cards.find(e => e.id === id)), 1, data)
     setDataPhone(newCardsState);
     setCards(newCardsState)
   }
 
   function handleDeletePhone(id) {
     const newCards = dataPhone.filter((card) => card.id !== id);
+    setDataPhone(newCards);
     setCards(newCards);
   }
 

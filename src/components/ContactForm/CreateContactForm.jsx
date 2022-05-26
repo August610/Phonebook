@@ -24,7 +24,7 @@ export function CreateContactForm({ active }) {
     email: "",
   });
 
-  console.log("image create", image);
+  // console.log("image create", image);
   function handleChange(event) {
     setinfo({ ...info, [event.target.name]: event.target.value });
   }
