@@ -44,9 +44,9 @@ export const App = () => {
     }
   }
 
-  useEffect(() => {
-    handleRequest();
-  }, [searchQuery]);
+  useEffect(() => {  //Динамическое отображение искомых данных
+    handleRequest(); //
+  }, [searchQuery]); //
 
   useEffect(() => {
     if (fetching) {
@@ -217,6 +217,7 @@ export const App = () => {
             clearSearch={clearSearch}
           />
         </Header>
+        <React.StrictMode>
         <Menu />
         <main className="content container">
           <div className="content__cards">
@@ -225,6 +226,7 @@ export const App = () => {
             />
           </div>
         </main>
+        </React.StrictMode>
         <Footer></Footer>
       </AppContext.Provider>
     </>

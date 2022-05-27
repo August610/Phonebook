@@ -18,11 +18,9 @@ export const Contact = ({ name, email, address, number, image, id }) => {
     }
   }
 
-  // console.log("image", image);
-
   return (
     <>
-      <ModalForm active={modalActiveInfo} setActive={setmodalActiveInfo}>
+      { modalActiveInfo == true ? <ModalForm active={modalActiveInfo} setActive={setmodalActiveInfo}>
         <div className={s.info}>
           {image ? (
             <img src={image} className={s.image_info} alt="img" />
@@ -43,8 +41,8 @@ export const Contact = ({ name, email, address, number, image, id }) => {
             Закрыть
           </button>
         </div>
-      </ModalForm>
-      <ModalForm active={modalActive} setActive={setModalActive}>
+      </ModalForm> : null}
+      {modalActive == true ? <ModalForm active={modalActive} setActive={setModalActive}>
         <EditContactForm
           name={name}
           number={number}
@@ -55,7 +53,7 @@ export const Contact = ({ name, email, address, number, image, id }) => {
           cards={cards}
           setActive={setModalActive}
         />
-      </ModalForm>
+      </ModalForm> : null}
       <div
         className={s.card}
         onClick={() => {
