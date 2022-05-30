@@ -198,7 +198,7 @@ export function CreateContactForm({ active }) {
         <button
           className={s.button_com}
           onClick={() => {
-            active(false), reserInfo();
+            setTimeout(() => active(false), 100), reserInfo();
           }}
         >
           Сохранить

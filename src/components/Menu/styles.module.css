@@ -42,11 +42,11 @@
 
 .circleDiv {
 	width: 56px;
-    height: 48px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-	margin-left: 15px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+	margin-left: 31px;
 }
 
 .col {

@@ -41,19 +41,19 @@ export const Contact = ({ name, email, address, number, image, id }) => {
             Закрыть
           </button>
         </div>
-      </ModalForm> : null}
-      {modalActive == true ? <ModalForm active={modalActive} setActive={setModalActive}>
-        <EditContactForm
-          name={name}
-          number={number}
-          address={address}
-          email={email}
-          image={image}
-          id={id}
-          cards={cards}
-          setActive={setModalActive}
-        />
-      </ModalForm> : null}
+      </ModalForm> : null }
+    { modalActive == true ? <ModalForm active={modalActive} setActive={setModalActive}>
+      <EditContactForm
+        name={name}
+        number={number}
+        address={address}
+        email={email}
+        image={image}
+        id={id}
+        cards={cards}
+        setActive={setModalActive}
+      />
+    </ModalForm> : null}
       <div
         className={s.card}
         onClick={() => {

@@ -34,7 +34,7 @@ export const Menu = () => {
         <div className={cn(s.col, s.email)}>Электронная почта</div>
       </div>
 
-      <ModalMenu active={modalActive} setActive={setModalActive}>
+      { modalActive == true ? <ModalMenu active={modalActive} setActive={setModalActive}>
         <div className={s.wrapper}>
           <div
             className={s.item}
@@ -85,12 +85,13 @@ export const Menu = () => {
             </span>
           </div>
         </div>
-      </ModalMenu>
-      <ModalForm active={modalActiveForm} setActive={setModalActiveForm}>
+      </ModalMenu> : null }
+      
+      { modalActiveForm == true? <ModalForm active={modalActiveForm} setActive={setModalActiveForm}>
         <CreateContactForm
           active={setModalActiveForm}
         ></CreateContactForm>
-      </ModalForm>
+      </ModalForm> : null }
     </div>
   );
 };

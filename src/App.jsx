@@ -56,6 +56,11 @@ export const App = () => {
       setTotalCount(cards.length);
       setFetching(false);
     }
+    dataPhone.sort((a, b) =>
+    (a.name.last || a.name.first).localeCompare(
+      b.name.last || b.name.first
+    )
+  );
   }, [searchQuery, fetching, totalCount, sort, cards, dataPhone]);
 
   useEffect(() => {
@@ -141,7 +146,6 @@ export const App = () => {
     if (last == undefined) {
       last = "";
     }
-    console.log("data", data);
     data.name = {};
     data.image = image;
     data.id = id;
