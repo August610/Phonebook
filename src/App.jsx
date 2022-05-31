@@ -13,8 +13,6 @@ export const App = () => {
   const [cards, setCards] = useState([]);
   const [editMode, setEditMode] = useState(false);
 
-  // console.log(dataPhone);
-
   const [page, setPage] = useState(1);
   const [fetching, setFetching] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
@@ -83,23 +81,6 @@ export const App = () => {
     }
   };
 
-  const sortPhone = (item) => {
-    if (!sort) {
-      item.sort((a, b) =>
-        (a.name.last || a.name.first).localeCompare(
-          b.name.last || b.name.first
-        )
-      );
-    } else {
-      item.sort((a, b) =>
-        (b.name.last || b.name.first).localeCompare(
-          a.name.last || a.name.first
-        )
-      );
-    }
-  }
-
-
   const includesQuery = (item) =>
     item.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -116,7 +97,7 @@ export const App = () => {
       setCards(filterCards);
     }
 
-    if (searchQuery === "") {
+    else {
       setCards(records(firstIndex, contentPerPage));
       setTotalCount(0);
     }
@@ -131,7 +112,6 @@ export const App = () => {
   };
 
   function handleCreateNewPhone(data, image) {
-    data.name.split(" ").map((e) => console.log(e));
     let [first, last] = data.name.split(" ");
     if (last == undefined) {
       last = "";
@@ -149,7 +129,6 @@ export const App = () => {
     data.name = {};
     data.image = image;
     data.id = id;
-    console.log(id);
     data.name.first = first;
     data.name.last = last;
     const newCardsState = dataPhone.map((c) => {

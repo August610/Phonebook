@@ -16,11 +16,6 @@ export const Search = ({searchText = "", handleInputChange, handleFormSubmit, cl
     handleFormSubmit && handleFormSubmit(inputRef.current?.value);
   };
 
-   const handleClick = () => {
-     inputRef.current.style.color = 'red';
-   }
-
-
   return (
     <form className={s.search} onSubmit={handleForm}>
       <input
@@ -34,7 +29,7 @@ export const Search = ({searchText = "", handleInputChange, handleFormSubmit, cl
         className={s.input}
       />
       <button className={s.btn}>
-        {searchQuery === "" ? <SearchIcon onClick={handleClick}/> : <CloseIcon onClick={clearSearch}/>}
+        {searchQuery === "" ? <SearchIcon/> : <CloseIcon onClick={clearSearch}/>}
       </button>
     </form>
   );

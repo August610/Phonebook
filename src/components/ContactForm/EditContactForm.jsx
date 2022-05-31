@@ -3,9 +3,6 @@ import { useForm } from 'react-hook-form';
 import { AppContext } from '../context/appContext';
 import { ModalForm } from '../ModalForm/ModalForm';
 import { ReactComponent as Out } from './img/Out1.svg'
-import { Upload } from "upload-js";
-
-
 import s from "./styles.module.css"
 
 export function EditContactForm({ name, address, email, number, image, setActive, id }) {
@@ -24,8 +21,8 @@ export function EditContactForm({ name, address, email, number, image, setActive
     })
 
     const [imageEdit, setImageEdit] = useState(image);
-
-    // console.log(imageEdit);
+    const [fileUrl, setFileUrl] = useState(null);
+    const [modalActive, setModalActive] = useState(false);
 
     useEffect(() => {
         setinfo({
@@ -37,11 +34,10 @@ export function EditContactForm({ name, address, email, number, image, setActive
         setImageEdit(image);
     }, [name, address, email, number, image, id]);
 
-    const [modalActive, setModalActive] = useState(false);
+
 
     function onSubmit(data) {
         handleUpdateNewPhone(data, id, imageEdit)
-        // console.log(data);
     }
 
     function onSubmitImg(data) {
@@ -52,94 +48,37 @@ export function EditContactForm({ name, address, email, number, image, setActive
         setinfo({ ...info, [event.target.name]: event.target.value })
     }
 
-    
+    function handleSubmity(event) {
+        event.preventDefault();
+        onSubmitImg(fileUrl)
+    }
 
+    function handleImageChange(event) {
+        event.preventDefault();
+        let reader = new FileReader();
+        let file = event.target.files[0];
 
+        reader.onloadend = () => {
+            setFileUrl(reader.result);
+        }
 
-    // class ImageUpload extends React.Component {
-    //     constructor(props) {
-    //         super(props);
-    //         this.state = { file: '', imagePreviewUrl: '' };
-    //     }
-
-    //     _handleSubmit(e) {
-    //         e.preventDefault();
-    //         // console.log('handle uploading-', this.state.file);
-    //         onSubmitImg(this.state.imagePreviewUrl)
-    //     }
-
-    //     _handleImageChange(e) {
-    //         e.preventDefault();
-
-    //         let reader = new FileReader();
-    //         let file = e.target.files[0];
-
-    //         reader.onloadend = () => {
-    //             this.setState({
-    //                 file: file,
-    //                 imagePreviewUrl: reader.result
-    //             });
-    //         }
-
-    //         reader.readAsDataURL(file)
-    //     }
-
-    //     render() {
-    //         let { imagePreviewUrl } = this.state;
-    //         let $imagePreview = null;
-    //         if (imagePreviewUrl) {
-    //             $imagePreview = (<img src={imagePreviewUrl} />);
-    //         } else {
-    //             $imagePreview = (<div className={s.previewText}>Пожалуйста, загрузите изображение</div>);
-    //         }
-
-    //         return (
-    //             <div className={s.previewComponent}>
-    //                 <form onSubmit={(e) => this._handleSubmit(e)}>
-    //                     <input className={s.fileInput}
-    //                         type="file"
-    //                         onChange={(e) => this._handleImageChange(e)} />
-    //                     <button className={s.submitButton}
-    //                         type="submit"
-    //                         onClick={(e) => this._handleSubmit(e)}>Загрузить изображение</button>
-    //                 </form>
-    //                 {/* <div className={s.imgPreview}>
-    //                     {$imagePreview}
-    //                 </div> */}
-    //             </div>
-    //         )
-    //     }
-    // }
-
-
-
-const upload = new Upload({ apiKey: "free" });
-
-const FileUploadButton = () => {
-  const [progress, setProgress] = useState(null);
-  const [fileUrl, setFileUrl]   = useState(null);
-  const [error, setError]       = useState(null);
-//   onSubmitImg(fileUrl);
-  
-  if (fileUrl  !== null) return fileUrl;
-  if (error    !== null) return error.message;
-  if (progress !== null) return <>File uploading... {progress}%</>;
-
-  return <input type="file"
-                onChange={upload.createFileInputHandler({
-                  onBegin:    ({ cancel })   => setProgress(0),
-                  onProgress: ({ progress }) => setProgress(progress),
-                  onUploaded: ({ fileUrl })  => setFileUrl(fileUrl),
-                  onError:    (error)        => setError(error)
-                })} />;
-};
-
+        reader.readAsDataURL(file)
+    }
 
     return (
         <>
             <ModalForm active={modalActive} setActive={setModalActive}>
-                {FileUploadButton()}
-                <button onClick={() => { setModalActive(false) }}>Закрыть</button>
+                <div className={s.previewComponent}>
+                    <form onSubmit={handleSubmity}>
+                        <input className={s.button_com}
+                            type="file"
+                            onChange={handleImageChange} />
+                        <button className={s.button_com}
+                            type="submit"
+                            onClick={handleSubmity}>Загрузить изображение</button>
+                    </form>
+                </div>
+                <button className={s.button_com} onClick={() => { setModalActive(false) }}>Закрыть</button>
             </ModalForm>
             <h3>Редактировать пользователя</h3>
             <div onClick={() => { setModalActive(true) }}> {imageEdit ? <img src={imageEdit} className={s.imagee} alt="img" /> : <Out className={s.image} />}</div>
@@ -186,7 +125,7 @@ const FileUploadButton = () => {
                     value={info.email}
                     onChange={handleChange}
                 />
-                <button className={s.button_com} onClick={() => { setTimeout(() => setActive(false), 100);  }}> Сохранить </button>
+                <button className={s.button_com} onClick={() => { setTimeout(() => setActive(false), 100); }}> Сохранить </button>
                 <button type='reset' className={s.button_com} onClick={() => {
                     setActive(false), setinfo({
                         name: [name.first || name.last],

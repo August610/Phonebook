@@ -16,7 +16,7 @@ export function CreateContactForm({ active }) {
   const { handleCreateNewPhone, cards } = useContext(AppContext);
   const [modalActive, setModalActive] = useState(false);
   const [image, setImage] = useState(cards.image);
-  // console.log(image);
+  const [fileUrl, setFileUrl] = useState(null);
   const [info, setinfo] = useState({
     name: "",
     number: "",
@@ -24,14 +24,12 @@ export function CreateContactForm({ active }) {
     email: "",
   });
 
-  // console.log("image create", image);
   function handleChange(event) {
     setinfo({ ...info, [event.target.name]: event.target.value });
   }
 
   function onSubmit(data) {
     handleCreateNewPhone(data, image);
-    console.log(data, image);
   }
 
   function reserInfo() {
@@ -44,7 +42,6 @@ export function CreateContactForm({ active }) {
   }
 
   function onSubmitImg(data) {
-    // console.log(data);
     setImage(data);
   }
 
@@ -52,66 +49,20 @@ export function CreateContactForm({ active }) {
     setImage(null);
   }
 
-  class ImageUpload extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { file: "", imagePreviewUrl: "" };
+  function handleSubmity(event) {
+    event.preventDefault();
+    onSubmitImg(fileUrl)
+  }
+
+  function handleImageChange(event) {
+    event.preventDefault();
+    let reader = new FileReader();
+    let file = event.target.files[0];
+
+    reader.onloadend = () => {
+      setFileUrl(reader.result);
     }
-
-    _handleSubmit(e) {
-      e.preventDefault();
-      console.log("handle uploading-", this.state.file);
-      onSubmitImg(this.state.imagePreviewUrl);
-    }
-
-    _handleImageChange(e) {
-      e.preventDefault();
-
-      let reader = new FileReader();
-      let file = e.target.files[0];
-
-      reader.onloadend = () => {
-        this.setState({
-          file: file,
-          imagePreviewUrl: reader.result,
-        });
-      };
-
-      reader.readAsDataURL(file);
-    }
-
-    render() {
-      let { imagePreviewUrl } = this.state;
-      let $imagePreview = null;
-      if (imagePreviewUrl) {
-        $imagePreview = <img src={imagePreviewUrl} />;
-      } else {
-        $imagePreview = (
-          <div className={s.previewText}>Пожалуйста, загрузите изображение</div>
-        );
-      }
-
-      return (
-        <div className={s.previewComponent}>
-          <form onSubmit={(e) => this._handleSubmit(e)}>
-            <input
-              className={s.fileInput}
-              type="file"
-              onChange={(e) => this._handleImageChange(e)}
-            />
-            <button
-              className={s.submitButton}
-              type="submit"
-              onClick={(e) => {
-                this._handleSubmit(e), setModalActive(false);
-              }}
-            >
-              Загрузить изображение
-            </button>
-          </form>
-        </div>
-      );
-    }
+    reader.readAsDataURL(file)
   }
 
   return (
@@ -128,7 +79,16 @@ export function CreateContactForm({ active }) {
         />
       )}
       <ModalForm active={modalActive} setActive={setModalActive}>
-        <ImageUpload />
+        <div className={s.previewComponent}>
+          <form onSubmit={handleSubmity}>
+            <input className={s.button_com}
+              type="file"
+              onChange={handleImageChange} />
+            <button className={s.button_com}
+              type="submit"
+              onClick={handleSubmity}>Загрузить изображение</button>
+          </form>
+        </div>
         <button
           onClick={() => {
             setModalActive(false);
